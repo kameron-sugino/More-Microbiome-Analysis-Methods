@@ -1,35 +1,41 @@
----
-title: "README"
-output:
-  md_document:
-    variant: markdown_github
-date: '2023-03-24'
----
-
-
 # More-Microbiome-Analysis-Methods
-This code is a collection of all the code produced during my postdoc. We will cover repeated measures regression with the lmer package, basic regression model selection criteria using AICc, PCoA model selection criteria using AICc, and variable selection using LASSO regression.
 
-## Things you'll need
-* Base R: https://www.r-project.org/
-* R Studio: https://rstudio.com/products/rstudio/download/
-* Dataset
+This code is a collection of all the code produced during my postdoc. We
+will cover repeated measures regression with the lmer package, basic
+regression model selection criteria using AICc, PCoA model selection
+criteria using AICc, and variable selection using LASSO regression.
+
+## Things you’ll need
+
+-   Base R: <https://www.r-project.org/>
+-   R Studio: <https://rstudio.com/products/rstudio/download/>
+-   Dataset
 
 # 1) Introduction
 
-* This code is just a compilation of all the code I've produced during my postdoc. It will not include a primer on how to use R or any of the code for looking at alpha diversity, beta diversity, negative bionomial regressions, or anything covered in the first workshop (V1.3).
+-   This code is just a compilation of all the code I’ve produced during
+    my postdoc. It will not include a primer on how to use R or any of
+    the code for looking at alpha diversity, beta diversity, negative
+    bionomial regressions, or anything covered in the first workshop
+    (V1.3).
 
-* The code used will also likely be very messy and not converted to functions, making them bulky to use (since they aren't being held in a package); might go back and improve this later, but who knows!
+-   The code used will also likely be very messy and not converted to
+    functions, making them bulky to use (since they aren’t being held in
+    a package); might go back and improve this later, but who knows!
 
-* The data used here will span two to three papers as the methods used were different between each. If I get around to writing it, we'll discuss pros and cons of each method later (sorry)
+-   The data used here will span two to three papers as the methods used
+    were different between each. If I get around to writing it, we’ll
+    discuss pros and cons of each method later (sorry)
 
-* More information on the metagenomics or sequence processing techniques can be found in the reference paper (PMID: 35966074) and in the companion folder
+-   More information on the metagenomics or sequence processing
+    techniques can be found in the reference paper (PMID: 35966074) and
+    in the companion folder
 
 # 2) Installing R Packages
 
-* Anyway, let's start by installing the packages you'll need for this.
-  
-```{r,eval=FALSE}
+-   Anyway, let’s start by installing the packages you’ll need for this.
+
+``` r
 install.packages("vegan")
 install.packages("tidyverse")
 install.packages("tidyr")
@@ -45,17 +51,21 @@ install.packages("gglasso")
 install.packages("reshape2")
 ```
 
-* Packages are written by members of the R community, so some caution should be used when trying out random packages with little/no documentation.
-  * You can find the documentation for any package in R (in this case the vegan package) like so:
-  
-```{r,eval=FALSE}
+-   Packages are written by members of the R community, so some caution
+    should be used when trying out random packages with little/no
+    documentation.
+    -   You can find the documentation for any package in R (in this
+        case the vegan package) like so:
+
+``` r
 help(package=vegan)
 ```
 
-* More documentation, tutorials, and other tips/tricks/solves can be found on via search engine (usually)
-* Let's load these packages into R and get started
+-   More documentation, tutorials, and other tips/tricks/solves can be
+    found on via search engine (usually)
+-   Let’s load these packages into R and get started
 
-```{r, eval=FALSE}
+``` r
 require("vegan")
 require("tidyverse")
 require("tidyr")
@@ -70,54 +80,58 @@ require("glmnet")
 require("gglasso")
 require("reshape2")
 ```
-```{r,include=FALSE}
-require("vegan")
-require("tidyverse")
-require("tidyr")
-require("MASS")
-require("car")
-require("FSA")
-require("ggplot2")
-require("lme4")
-require("FSA")
-require("MuMIn")
-require("glmnet")
-require("gglasso")
-require("reshape2")
-```
 
-* This data is from the CHOICE study conducted at CU. Briefly, women with GDM were fed either a CHOICE diet (60% complex carbohydrate/25% fat/15% protein, n=18) or a conventional diet (CONV, 40% complex carbohydrate/45% fat/15% protein, n=16) from 30 weeks' gestation through delivery.
-* We will be looking at the infant stool samples collected at 2 weeks, 2 months, and 4-5 months of age and their association with diet group, gestational weight gain, delivery mode (CS/vaginal), breastfeeding status (exclusive BF, mixed, formula), and sex (male/female).
-* Here, we will look at longitudinal analyses for alpha, and beta. I also did a taxa comparison using AIC to narrow down my models, but I have a better method of doing this that we will go over later
+-   This data is from the CHOICE study conducted at CU. Briefly, women
+    with GDM were fed either a CHOICE diet (60% complex carbohydrate/25%
+    fat/15% protein, n=18) or a conventional diet (CONV, 40% complex
+    carbohydrate/45% fat/15% protein, n=16) from 30 weeks’ gestation
+    through delivery.
 
-* The paper on this data can be found here https://pubmed.ncbi.nlm.nih.gov/35966074/
+-   We will be looking at the infant stool samples collected at 2 weeks,
+    2 months, and 4-5 months of age and their association with diet
+    group, gestational weight gain, delivery mode (CS/vaginal),
+    breastfeeding status (exclusive BF, mixed, formula), and sex
+    (male/female).
 
-* Let's get to reading our data in.
+-   Here, we will look at longitudinal analyses for alpha, and beta. I
+    also did a taxa comparison using AIC to narrow down my models, but I
+    have a better method of doing this that we will go over later
 
-```{r setup,echo=F}
-knitr::opts_knit$set(root.dir = "C:/Users/Kam/Desktop/Projects/More-Microbiome-Analysis-Methods/data")
-```
+-   The paper on this data can be found here
+    <https://pubmed.ncbi.nlm.nih.gov/35966074/>
 
-```{r}
+-   Let’s get to reading our data in.
+
+``` r
 fam<-read.csv("inf_MB_fam_paired_noabx.csv",header=T,fill=T)
 cho_meta<-read.csv("inf_meta_paired_noabx.csv",header=T,fill=T)
 cho_meta.e<-cho_meta[,-c(1:4)] #we're removing metadata values we don't need (participant ID, timepoint, group, etc.) leaving us with continuous variables from maternal plasma measurements
 ```
 
-* I said I wouldn't be doing alpha/beta diversity here (I lied!), but since I did a longitudinal analysis of the data that wasn't in the previous workshop code I'll run through the setup quickly
-* Start with calculating chao and shannon diversity; there are many other types of alpha diversity measures (many can be calculated by vegan) but they generally tell you the same thing about richness or overall diversity of the ecosystem
+-   I said I wouldn’t be doing alpha/beta diversity here (I lied!), but
+    since I did a longitudinal analysis of the data that wasn’t in the
+    previous workshop code I’ll run through the setup quickly
+-   Start with calculating chao and shannon diversity; there are many
+    other types of alpha diversity measures (many can be calculated by
+    vegan) but they generally tell you the same thing about richness or
+    overall diversity of the ecosystem
 
-```{r}
+``` r
 fam$PTID<-as.factor(fam$PTID)
 shan<-diversity(fam[,-c(1:4)],index="shannon")
 chao<-estimateR(round(fam[,-c(1:4)])) #Chao outputs a bunch of numbers, so   you gotta pull out the single Chao1 score of interest, like so
 chao<-chao[2,]
 ```
 
-* Basically we just send the data through a for loop that creates several models and compares which is the best fit of the data.
-* Each model is set up such that alpha diversity is the response variable and the independent variables are the measurements + the interaction between diet group and timepoint + an error term for tracking participants over time (this last part is what makes it a repeated measures analysis)
+-   Basically we just send the data through a for loop that creates
+    several models and compares which is the best fit of the data.
+-   Each model is set up such that alpha diversity is the response
+    variable and the independent variables are the measurements + the
+    interaction between diet group and timepoint + an error term for
+    tracking participants over time (this last part is what makes it a
+    repeated measures analysis)
 
-```{r}
+``` r
 #Alpha repeated measures
 alpha_aicc<-function(alpha_measure, variables, longitudinal = FALSE, group = NA, time = NA, id = NA) {
   
@@ -236,38 +250,77 @@ alpha_aicc<-function(alpha_measure, variables, longitudinal = FALSE, group = NA,
   
   return(m_models)
 }
-
 ```
 
-* My code above can run several models depending on the input:
-  * a linear mixed effects model is run if longitudinal==TRUE, and you specify groups, timepoints, and id
-  * a linear model of just alpha ~ variable
-  * a linear model of alpha ~ variable + group/time
-* Not all use cases are covered, but several simple queries can be run
-  
-* Note that, strictly speaking, the simplest model is just lmer(shan~1+(1|fam$PTID)), which, if it's the best model according to AIC, would mean that none of the terms are important in describing shannon diversity; not a particularly useful interpretation of the data, especially when the anova output will tell you if the association is significant or not
+-   My code above can run several models depending on the input:
 
-```{r}
+    -   a linear mixed effects model is run if longitudinal==TRUE, and
+        you specify groups, timepoints, and id
+    -   a linear model of just alpha ~ variable
+    -   a linear model of alpha ~ variable + group/time
+
+-   Not all use cases are covered, but several simple queries can be run
+
+-   Note that, strictly speaking, the simplest model is just
+    lmer(shan~1+(1\|fam$PTID)), which, if it’s the best model according
+    to AIC, would mean that none of the terms are important in
+    describing shannon diversity; not a particularly useful
+    interpretation of the data, especially when the anova output will
+    tell you if the association is significant or not
+
+``` r
 m<-alpha_aicc(shan, cho_meta.e,longitudinal = TRUE,group = fam$Group, time=fam$time,id=fam$PTID)
 ```
 
-* We then compare all the results and use the model with the lowest value (the AIC and BIC are like golf scores: lower is better)
+    ## [1] "Running lmer model as alpha_measure ~ variable+group*time+(1|id)"
 
-```{r}
+-   We then compare all the results and use the model with the lowest
+    value (the AIC and BIC are like golf scores: lower is better)
+
+``` r
 m
 ```
 
-* The simple model is best (AICmin = 76.31) so we go with that one for our stats; we're making sure to use a type III ANOVA so that the order of the terms in the model does not matter. Generally, you look for an AICc difference of >=2. If there are two models that are within 2 of each other, take the simpler model (i.e., the one with fewer terms), otherwise (if they are the same complexity) try a hybrid model that includes both the terms and see if the model improves; if not, use the model with the lowest value
+    ##            variable     AICc
+    ## 1            simple 76.31015
+    ## 2 GestationalWtGain 85.55686
+    ## 3      DeliveryType 80.02299
+    ## 4     BreastFeeding 80.65645
+    ## 5               Sex 80.73661
+    ## 6               all 98.40105
 
-```{r}
+-   The simple model is best (AICmin = 76.31) so we go with that one for
+    our stats; we’re making sure to use a type III ANOVA so that the
+    order of the terms in the model does not matter. Generally, you look
+    for an AICc difference of \>=2. If there are two models that are
+    within 2 of each other, take the simpler model (i.e., the one with
+    fewer terms), otherwise (if they are the same complexity) try a
+    hybrid model that includes both the terms and see if the model
+    improves; if not, use the model with the lowest value
+
+``` r
 m1 <- lmer(shan~fam$Group*fam$time+(1|fam$PTID)) #simple model
 Anova(m1,type="III")
 ```
 
-* Let's move on to beta diversity. You can actually do a repeated measures PERMANOVA by treating each timepoint as a block that is linked via participant ID.
-* I'm using other people's code to calculate PERMANOVA AIC, so see the function below
+    ## Analysis of Deviance Table (Type III Wald chisquare tests)
+    ## 
+    ## Response: shan
+    ##                      Chisq Df Pr(>Chisq)    
+    ## (Intercept)        87.6522  1     <2e-16 ***
+    ## fam$Group           0.1872  1     0.6652    
+    ## fam$time            1.4927  2     0.4741    
+    ## fam$Group:fam$time  0.1061  2     0.9483    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-```{r}
+-   Let’s move on to beta diversity. You can actually do a repeated
+    measures PERMANOVA by treating each timepoint as a block that is
+    linked via participant ID.
+-   I’m using other people’s code to calculate PERMANOVA AIC, so see the
+    function below
+
+``` r
 AICc.PERMANOVA2 <- function(adonis2.model) {
   
   # check to see if object is an adonis2 model...
@@ -360,22 +413,45 @@ bray_AICc<-function(variables, otus, group = NA, time = NA, id = NA){
 }
 ```
 
-* This function doesn't have more use cases than running a mixed effects model for Bray-Curtis AICc, but I may expand it to more functions in the future.
+-   This function doesn’t have more use cases than running a mixed
+    effects model for Bray-Curtis AICc, but I may expand it to more
+    functions in the future.
 
-```{r}
+``` r
 bray_AICc(variables = cho_meta.e, otus = fam[,-c(1:4)], group = fam$Group, time = fam$time, id = fam$PTID)
 ```
 
-* The numbers are negative, but (as I've read online) this isn't an issue--you still pick the lowest value (i.e., most negative number in this case), which is the simple model again (AICc = -87.45)
+    ##               model      AICc
+    ## 1            simple -87.45361
+    ## 2 GestationalWtGain -86.40058
+    ## 3      DeliveryType -86.97742
+    ## 4     BreastFeeding -84.24409
+    ## 5               Sex -85.72590
+    ## 6               all -80.49274
 
-* Now, I'm going to skip the taxa comparisons because it's a truly horrible way to do those via AICc in a negative binomial framework (at least in my experience). Instead, I'm going to show how to perform variable selection using LASSO regularization using another dataset
+-   The numbers are negative, but (as I’ve read online) this isn’t an
+    issue–you still pick the lowest value (i.e., most negative number in
+    this case), which is the simple model again (AICc = -87.45)
 
-* This dataset is a collection from non-human primates exposed to WD-induced maternal metabolic and microbiome changes in the absence of obesity, and miRNA and gene expression changes in the placenta and fetal liver after ~8-11 months of WD challenge.
+-   Now, I’m going to skip the taxa comparisons because it’s a truly
+    horrible way to do those via AICc in a negative binomial framework
+    (at least in my experience). Instead, I’m going to show how to
+    perform variable selection using LASSO regularization using another
+    dataset
 
-* We will first perform variable selection between moms and their infants using the measured miRNA, protein, and some other measures taken
-* Note that we are scaling the data around the mean/SD, but you can transform your data however is needed and run this the same way
+-   This dataset is a collection from non-human primates exposed to
+    WD-induced maternal metabolic and microbiome changes in the absence
+    of obesity, and miRNA and gene expression changes in the placenta
+    and fetal liver after ~8-11 months of WD challenge.
 
-```{r}
+-   We will first perform variable selection between moms and their
+    infants using the measured miRNA, protein, and some other measures
+    taken
+
+-   Note that we are scaling the data around the mean/SD, but you can
+    transform your data however is needed and run this the same way
+
+``` r
 dat<-read.csv("baboon_data_no_outliers.csv")
 
 #for lasso regression, need complete data. set up the data frames into discreet "blocks" of data that can be analyzed as complete sets (without removing every baboon with 1 NA value...)
@@ -394,14 +470,32 @@ dat.inf.protein<-dat.inf.scale[,c(37:ncol(dat.inf))]
 dat.inf.other<-dat.inf.scale[,c(1:3)]
 ```
 
-* Now that we have the data organized, let's start running our models.
+-   Now that we have the data organized, let’s start running our models.
 
-* It's important to note that the data have to be complete (i.e., no missing values), so in this case the LASSO trained models can only be done on a subset of the data. The resulting output can be run of the full dataset, after the optimal variables are selected; the output of summary(var.n) tells us what the minimal number of samples is for creating these models
+-   It’s important to note that the data have to be complete (i.e., no
+    missing values), so in this case the LASSO trained models can only
+    be done on a subset of the data. The resulting output can be run of
+    the full dataset, after the optimal variables are selected; the
+    output of summary(var.n) tells us what the minimal number of samples
+    is for creating these models
 
-* Note that you can include an interaction term for all models, meaning you can look for diet or sex interactions within your variables. However, I won't be going over that here, and I think some downstream code would have to be re-written (currently it works by referencing the variable names to the data column names, so an interaction term of variable1*diet would not be found as an exact match; a fix for this (again, in the code downstream; adding an interaction term here should work) is to find any cases with an asterisk, pulling onle the variable name, and then adding back the interaction term with paste(), setting the formula with as.formula, or similar method). 
-  * On the most basic level, you would specify interactions in the model as "f <- as.formula(y ~ .*diet)"; you can try it here with sex if you like
+-   Note that you can include an interaction term for all models,
+    meaning you can look for diet or sex interactions within your
+    variables. However, I won’t be going over that here, and I think
+    some downstream code would have to be re-written (currently it works
+    by referencing the variable names to the data column names, so an
+    interaction term of variable1\*diet would not be found as an exact
+    match; a fix for this (again, in the code downstream; adding an
+    interaction term here should work) is to find any cases with an
+    asterisk, pulling onle the variable name, and then adding back the
+    interaction term with paste(), setting the formula with as.formula,
+    or similar method).
 
-```{r,warning=F,results='hide'}
+    -   On the most basic level, you would specify interactions in the
+        model as “f \<- as.formula(y ~ .\*diet)“; you can try it here
+        with sex if you like
+
+``` r
 #mom v inf body comp parameters
 lasso_wrapper<-function(y_vars, x_vars = NA, groups = NA){
   
@@ -533,16 +627,21 @@ lasso_wrapper<-function(y_vars, x_vars = NA, groups = NA){
 collect<-lasso_wrapper(y_vars = dat.inf.scale, x_vars = dat.mom.scale)
 ```
 
-* there are three modes to this function depending on the input parameters:
-  * glmnet model as y ~ variable*group
-  * glmnet model as y ~ variable
-  * glmnet model as y ~ group
+-   there are three modes to this function depending on the input
+    parameters:
+    -   glmnet model as y ~ variable\*group
+    -   glmnet model as y ~ variable
+    -   glmnet model as y ~ group
+-   Now we need to pull the significant associations and run the
+    univariate stats on them with an anova
+-   Keep in mind that we are using the transformed data for these
+    analyses; you may want to use the untransformed data for plotting
+    (helps with ease of interpretation sometimes), but play around with
+    the presentation
+-   There’s probably a better way of doing this, but this is how I did
+    it:
 
-* Now we need to pull the significant associations and run the univariate stats on them with an anova
- * Keep in mind that we are using the transformed data for these analyses; you may want to use the untransformed data for plotting (helps with ease of interpretation sometimes), but play around with the presentation
-* There's probably a better way of doing this, but this is how I did it:
-
-```{r}
+``` r
 lasso_stats<-function(collect, y_vars, x_vars = NA, groups = NA){
   #by y~x*group
   if(length(x_vars)>1 & length(groups)>1){
@@ -640,27 +739,36 @@ lasso_stats<-function(collect, y_vars, x_vars = NA, groups = NA){
 }
 
 overall<-lasso_stats(collect = collect, y_vars = dat.inf.scale, x_vars = dat.mom.scale, groups = NA)
-
 ```
 
-* as before, there are three modes to this function depending on the input parameters:
-  * aov model as y ~ variable*group
-  * aov model as y ~ variable
-  * glmnet model as y ~ group
-  
-* We need to perform FDR correction on out p-values so let's do that real quick and append to the table
+-   as before, there are three modes to this function depending on the
+    input parameters:
+    -   aov model as y ~ variable\*group
+    -   aov model as y ~ variable
+    -   glmnet model as y ~ group
+-   We need to perform FDR correction on out p-values so let’s do that
+    real quick and append to the table
 
-```{r}
+``` r
 p.adj<-p.adjust(overall$`p-value xvar`,method="BH")
 
 overall.final<-cbind(overall,p.adj)
 ```
 
-* The variable "overall.final" is what we're looking for. In order, the layout tells us which variable is our y, our x, and stats for r-squared, correlation coefficient (spearman is the default, I believe), unadjusted p value, and Benjamini-Hochberg adjusted p value
-  * I have both r-squared and correlation in here to represent the strength of association in the regression (r-squared) and the direction of association (positive vs negative correlation)--useful info to have if you want to make a table of the data rather than show plots
+-   The variable “overall.final” is what we’re looking for. In order,
+    the layout tells us which variable is our y, our x, and stats for
+    r-squared, correlation coefficient (spearman is the default, I
+    believe), unadjusted p value, and Benjamini-Hochberg adjusted p
+    value
+    -   I have both r-squared and correlation in here to represent the
+        strength of association in the regression (r-squared) and the
+        direction of association (positive vs negative
+        correlation)–useful info to have if you want to make a table of
+        the data rather than show plots
+-   In the case where you have group comparisons, you’ll want to melt
+    the table and adjust all the p-values before recasting, like so
 
-* In the case where you have group comparisons, you'll want to melt the table and adjust all the p-values before recasting, like so
-```{r,warning=F,results='hide'}
+``` r
 collect2<-lasso_wrapper(y_vars = dat.inf.scale, x_vars = dat.mom.scale, groups = groups)
 overall2<-lasso_stats(collect = collect2, y_vars = dat.inf.scale, x_vars = dat.mom.scale, groups = groups)
 
@@ -670,11 +778,13 @@ padj<-data.frame(overall_melt[,-4],temp)
 overall.final2<-dcast(padj, measure + xvar ~ variable)
 ```
 
+    ## Using temp as value column: use value.var to override.
 
-* I like seeing the data associations, so let's plot the results. Easier if you export as a tiff file and check the output there, but we'll look at the output here
+-   I like seeing the data associations, so let’s plot the results.
+    Easier if you export as a tiff file and check the output there, but
+    we’ll look at the output here
 
-
-```{r}
+``` r
 #######
 #plot sig terms
 sig<-overall.final[overall.final$p.adj<0.1,]
@@ -698,14 +808,19 @@ for(i in 1:nrow(sig)){
     abline(lm(y~x))    
   }
 }
-
 ```
 
-* One other thing I have done is center-log transform the microbiome data before analysis to normalize the count data using the R package compositions
-* Note that you'll want to do the clr transform on the relative abundance data (so participant microbiota should sum to 1) and make sure to add a pseudocount of 1 since clr contains a log-transform step and you don't want your 0's going to infinity
+![](20230324_Workshopcode_2_files/figure-markdown_github/unnamed-chunk-18-1.png)
 
-```{r, echo=T, eval=F}
+-   One other thing I have done is center-log transform the microbiome
+    data before analysis to normalize the count data using the R package
+    compositions
+-   Note that you’ll want to do the clr transform on the relative
+    abundance data (so participant microbiota should sum to 1) and make
+    sure to add a pseudocount of 1 since clr contains a log-transform
+    step and you don’t want your 0’s going to infinity
+
+``` r
 require(compositions)
 otu.clr<-data.frame(clr(ra+(1)))
 ```
-
