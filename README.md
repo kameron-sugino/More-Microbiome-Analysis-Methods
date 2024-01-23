@@ -47,6 +47,8 @@ install.packages("lme4")
 install.packages("FSA")
 install.packages("MuMIn")
 install.packages("glmnet")
+install.packages("gglasso")
+install.packages("reshape2")
 ```
 
 -   Packages are written by members of the R community, so some caution
@@ -75,6 +77,8 @@ require("lme4")
 require("FSA")
 require("MuMIn")
 require("glmnet")
+require("gglasso")
+require("reshape2")
 ```
 
 -   This data is from the CHOICE study conducted at CU. Briefly, women
@@ -129,32 +133,146 @@ chao<-chao[2,]
 
 ``` r
 #Alpha repeated measures
-m<-data.frame(c("meta","aicc"))
-for(i in 1:ncol(cho_meta.e)){
-  a<-cho_meta.e[,i] #iterate over cho_meta.e one column at a time
-  m1 <- lmer(shan~a+fam$Group*fam$time+(1|fam$PTID)) #then run a linear mixed-effects model for each column variable (a) accounting for diet group, timepoint, the interaction of diet*time, and using the error term (1|fam$PTID) to correct for the longitudinal collection
-  temp<-AICc(m1)
-  m[i,1]<-colnames(cho_meta.e[i])
-  m[i,2]<-temp
+alpha_aicc<-function(alpha_measure, variables, longitudinal = FALSE, group = NA, time = NA, id = NA) {
+  
+  #run as lmer(alpha_measure ~ a+group*time+(1|id))
+  if(longitudinal == TRUE){
+    print("Running lmer model as alpha_measure ~ variable+group*time+(1|id)")
+    if(length(group)==1){
+      print("ERROR: study groups must be provided if longitudinal=TRUE")
+    }
+    if(length(time)==1){
+      print("ERROR: study time points must be provided if longitudinal=TRUE")
+    }
+    if(length(id)==1){
+      print("ERROR: study id's must be provided if longitudinal=TRUE")
+    }
+  
+  m<-data.frame()
+  for(i in 1:ncol(variables)){
+    a<-variables[,i] 
+    m1 <- lmer(alpha_measure~a+group*time+(1|id))
+    temp<-AICc(m1)
+    m[i,1]<-colnames(variables[i])
+    m[i,2]<-temp
+  }
+  colnames(m)<-c("variable","AICc")
+  
+  m1 <- lmer(alpha_measure~group*time+(1|id)) #simple model
+  m_simple<-data.frame("simple",AICc(m1))
+  colnames(m_simple)<-c("variable","AICc")
+  m2 <- lmer(reformulate(response="alpha_measure", termlabels=c(colnames(variables),"group*time","(1|id)")),data=variables) #full model; contains all terms
+  m_all<-data.frame("all",AICc(m2))
+  colnames(m_all)<-c("variable","AICc")
+  m_models<-rbind(m_simple, m, m_all)
+  }
+  
+  
+  # run as lm(alpha_measure~a)
+  if(longitudinal == FALSE & length(group)==1 & length(time)==1){
+    print("Running lm model as alpha_measure ~ variable)")
+    if(length(id)>1){
+      print("WARNING: study id's were provided but not used. Set longitudinal=TRUE if you want to run a time series analysis")
+    }
+      
+    m<-data.frame()
+    for(i in 1:ncol(variables)){
+      a<-variables[,i] 
+      m1 <- lm(alpha_measure~a)
+      temp<-AICc(m1)
+      m[i,1]<-colnames(variables[i])
+      m[i,2]<-temp
+    }
+    colnames(m)<-c("variable","AICc")
+    
+    m2 <- lm(reformulate(response="alpha_measure", termlabels=c(colnames(variables))),data=variables) #full model; contains all terms
+    m_all<-data.frame("all",AICc(m2))
+    colnames(m_all)<-c("variable","AICc")
+    m_models<-rbind(m, m_all)
+  }
+
+  
+  
+  #run as lm(alpha_measure ~ a+group)
+  if(longitudinal == FALSE & length(group)>1 & length(time)==1){
+    print("Running lm model as alpha_measure ~ variable+group")
+    if(length(id)>1){
+      print("WARNING: study id's were provided but not used. Set longitudinal=TRUE if you want to run a time series analysis")
+    }
+    
+    m<-data.frame()
+    for(i in 1:ncol(variables)){
+      a<-variables[,i] 
+      m1 <- lm(alpha_measure~a+group)
+      temp<-AICc(m1)
+      m[i,1]<-colnames(variables[i])
+      m[i,2]<-temp
+    }
+    colnames(m)<-c("variable","AICc")
+    
+    m1 <- lm(alpha_measure~group) #simple model
+    m_simple<-data.frame("simple",AICc(m1))
+    colnames(m_simple)<-c("variable","AICc")
+    m2 <- lm(reformulate(response="alpha_measure", termlabels=c(colnames(variables),"group")),data=variables) #full model; contains all terms
+    m_all<-data.frame("all",AICc(m2))
+    colnames(m_all)<-c("variable","AICc")
+    m_models<-rbind(m_simple, m, m_all)
+  }
+  
+  
+  
+  #run as lm(alpha_measure ~ a+time)
+  if(longitudinal == FALSE & length(group)==1 & length(time)>1){
+    print("Running lm model as alpha_measure ~ variable+time")
+    if(length(id)>1){
+      print("WARNING: study id's were provided but not used. Set longitudinal=TRUE if you want to run a time series analysis")
+    }
+    
+    m<-data.frame()
+    for(i in 1:ncol(variables)){
+      a<-variables[,i] 
+      m1 <- lm(alpha_measure~a+time)
+      temp<-AICc(m1)
+      m[i,1]<-colnames(variables[i])
+      m[i,2]<-temp
+    }
+    colnames(m)<-c("variable","AICc")
+    
+    m1 <- lm(alpha_measure~time) #simple model
+    m_simple<-data.frame("simple",AICc(m1))
+    colnames(m_simple)<-c("variable","AICc")
+    m2 <- lm(reformulate(response="alpha_measure", termlabels=c(colnames(variables),"time")),data=variables) #full model; contains all terms
+    m_all<-data.frame("all",AICc(m2))
+    colnames(m_all)<-c("variable","AICc")
+    m_models<-rbind(m_simple, m, m_all)
+  }
+  
+  
+  return(m_models)
 }
 ```
 
--   My code above is bad (ideally it’d include all the comparisons
-    needed and output both the full list of results plus the optimal
-    model automatically), but for now we have to run both a simple model
-    (shannon~group\*time) and a full model that includes all the
-    variables at once.
-    -   Strictly speaking, the simplest model is just
-        lmer(shan~1+(1\|fam$PTID)), which, if it’s the best model
-        according to AIC, would mean that none of the terms are
-        important in describing shannon diversity; not a particularly
-        useful interpretation of the data, especially when the anova
-        output will tell you if the association is significant or not
+-   My code above can run several models depending on the input:
+
+    -   a linear mixed effects model is run if longitudinal==TRUE, and
+        you specify groups, timepoints, and id
+    -   a linear model of just alpha ~ variable
+    -   a linear model of alpha ~ variable + group/time
+
+-   Not all use cases are covered, but several simple queries can be run
+
+-   Note that, strictly speaking, the simplest model is just
+    lmer(shan~1+(1\|fam$PTID)), which, if it’s the best model according
+    to AIC, would mean that none of the terms are important in
+    describing shannon diversity; not a particularly useful
+    interpretation of the data, especially when the anova output will
+    tell you if the association is significant or not
 
 ``` r
-m1 <- lmer(shan~fam$Group*fam$time+(1|fam$PTID)) #simple model
-m2 <- lmer(shan~fam$Group*fam$time+cho_meta$GestationalWtGain+cho_meta$DeliveryType+cho_meta$BreastFeeding+(1|fam$PTID)) #full model; contains all terms
+m<-alpha_aicc(shan, cho_meta.e,longitudinal = TRUE,group = fam$Group, time=fam$time,id=fam$PTID)
 ```
+
+    ## [1] "Running lmer model as alpha_measure ~ variable+group*time+(1|id)"
 
 -   We then compare all the results and use the model with the lowest
     value (the AIC and BIC are like golf scores: lower is better)
@@ -163,23 +281,13 @@ m2 <- lmer(shan~fam$Group*fam$time+cho_meta$GestationalWtGain+cho_meta$DeliveryT
 m
 ```
 
-    ##   c..meta....aicc..       V2
-    ## 1 GestationalWtGain 85.55686
-    ## 2      DeliveryType 80.02299
-    ## 3     BreastFeeding 80.65645
-    ## 4               Sex 80.73661
-
-``` r
-AICc(m1)
-```
-
-    ## [1] 76.31015
-
-``` r
-AICc(m2)
-```
-
-    ## [1] 93.42912
+    ##            variable     AICc
+    ## 1            simple 76.31015
+    ## 2 GestationalWtGain 85.55686
+    ## 3      DeliveryType 80.02299
+    ## 4     BreastFeeding 80.65645
+    ## 5               Sex 80.73661
+    ## 6               all 98.40105
 
 -   The simple model is best (AICmin = 76.31) so we go with that one for
     our stats; we’re making sure to use a type III ANOVA so that the
@@ -191,6 +299,7 @@ AICc(m2)
     improves; if not, use the model with the lowest value
 
 ``` r
+m1 <- lmer(shan~fam$Group*fam$time+(1|fam$PTID)) #simple model
 Anova(m1,type="III")
 ```
 
@@ -268,109 +377,57 @@ AICc.PERMANOVA2 <- function(adonis2.model) {
 }
 
 
-#bray
-n<-data.frame(c("meta","aicc"))
-dat<-cho_meta.e
-for(i in 1:ncol(dat)){
-  a1<-dat[,i]
-  df<-vegdist(fam[,-c(1:4)],method="bray")
-  perm <- how(nperm = 999)
-  setBlocks(perm) <- with(fam, PTID)
-  temp<-adonis2(df~a1+fam$Group*fam$time,permutations=perm)
-  aic<-AICc.PERMANOVA2(temp)
-  n[i,1]<-colnames(dat[i])
-  n[i,2]<-aic$AICc
+#bray AICc calculation
+bray_AICc<-function(variables, otus, group = NA, time = NA, id = NA){
+  n<-data.frame()
+  for(i in 1:ncol(variables)){
+    a1<-variables[,i]
+    df<-vegdist(otus,method="bray")
+    perm <- how(nperm = 999)
+    setBlocks(perm) <- with(otus, id)
+    temp<-adonis2(df~a1+group*time,permutations=perm)
+    aic<-AICc.PERMANOVA2(temp)
+    n[i,1]<-colnames(variables[i])
+    n[i,2]<-aic$AICc
+  }
+  colnames(n)<-c("model","AICc")
+  
+  dist<-vegdist(otus,method="bray")
+  
+  #simple model
+  m1<-adonis2(dist~group*time,permutations=perm)
+  aic<-AICc.PERMANOVA2(m1)
+  aic_simple<-data.frame("simple",aic$AICc)
+  colnames(aic_simple)<-c("model","AICc")
+  
+  #all variables model
+  temp<-data.frame(variables, group, time)
+  m2<-adonis2(reformulate(response="dist", termlabels=c(colnames(variables),"group*time")),data=temp,permutations=perm)
+  aic<-AICc.PERMANOVA2(m2)
+  aic_all<-data.frame("all",aic$AICc)
+  colnames(aic_all)<-c("model","AICc")
+  m<-rbind(aic_simple, n, aic_all)
+  
+  return(m) 
+  
 }
 ```
 
--   Per usual, my code is scuffed, so you need to run the simple and
-    full models separately.
+-   This function doesn’t have more use cases than running a mixed
+    effects model for Bray-Curtis AICc, but I may expand it to more
+    functions in the future.
 
 ``` r
-dist<-vegdist(fam[,-c(1:4)],method="bray")
-
-m1<-adonis2(dist~fam$Group*fam$time,permutations=perm)
-AICc.PERMANOVA2(m1)
+bray_AICc(variables = cho_meta.e, otus = fam[,-c(1:4)], group = fam$Group, time = fam$time, id = fam$PTID)
 ```
 
-    ## $AIC
-    ## [1] -88.95361
-    ## 
-    ## $AICc
-    ## [1] -87.45361
-    ## 
-    ## $AIC.g
-    ## [1] 89.83264
-    ## 
-    ## $AIC.MSE
-    ## [1] -82.64836
-    ## 
-    ## $AICc.MSE
-    ## [1] -81.14836
-    ## 
-    ## $AIC.pi
-    ## [1] 90.1379
-    ## 
-    ## $AICc.pi
-    ## [1] 91.6379
-    ## 
-    ## $k
-    ## [1] 6
-    ## 
-    ## $N
-    ## [1] 63
-
-``` r
-m2<-adonis2(dist~fam$Group*fam$time+cho_meta$GestationalWtGain+cho_meta$DeliveryType+cho_meta$BreastFeeding,permutations=perm)
-AICc.PERMANOVA2(m2)
-```
-
-    ## $AIC
-    ## [1] -86.51376
-    ## 
-    ## $AICc
-    ## [1] -82.28299
-    ## 
-    ## $AIC.g
-    ## [1] 92.27249
-    ## 
-    ## $AIC.MSE
-    ## [1] -75.62467
-    ## 
-    ## $AICc.MSE
-    ## [1] -71.3939
-    ## 
-    ## $AIC.pi
-    ## [1] 93.16159
-    ## 
-    ## $AICc.pi
-    ## [1] 97.39236
-    ## 
-    ## $k
-    ## [1] 10
-    ## 
-    ## $N
-    ## [1] 63
-
-``` r
-m1
-```
-
-    ## Permutation test for adonis under reduced model
-    ## Terms added sequentially (first to last)
-    ## Blocks:  with(fam, PTID) 
-    ## Permutation: free
-    ## Number of permutations: 999
-    ## 
-    ## adonis2(formula = dist ~ fam$Group * fam$time, permutations = perm)
-    ##                    Df SumOfSqs      R2      F Pr(>F)  
-    ## fam$Group           1   0.1341 0.00964 0.6025  0.052 .
-    ## fam$time            2   0.5376 0.03866 1.2076  0.138  
-    ## fam$Group:fam$time  2   0.5466 0.03930 1.2277  0.075 .
-    ## Residual           57  12.6885 0.91239                
-    ## Total              62  13.9069 1.00000                
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ##               model      AICc
+    ## 1            simple -87.45361
+    ## 2 GestationalWtGain -86.40058
+    ## 3      DeliveryType -86.97742
+    ## 4     BreastFeeding -84.24409
+    ## 5               Sex -85.72590
+    ## 6               all -80.49274
 
 -   The numbers are negative, but (as I’ve read online) this isn’t an
     issue–you still pick the lowest value (i.e., most negative number in
@@ -378,7 +435,7 @@ m1
 
 -   Now, I’m going to skip the taxa comparisons because it’s a truly
     horrible way to do those via AICc in a negative binomial framework
-    (I don’t wanna talk about it). Instead, I’m going to show how to
+    (at least in my experience). Instead, I’m going to show how to
     perform variable selection using LASSO regularization using another
     dataset
 
@@ -440,42 +497,141 @@ dat.inf.other<-dat.inf.scale[,c(1:3)]
 
 ``` r
 #mom v inf body comp parameters
-var.n<-data.frame()
-collect<-data.frame()
-a<-dat.inf.other
-b<-dat.mom.scale
-for(i in 1:ncol(a)){
-  dat.i.c<-a[,i]
-  temp<-data.frame(dat.i.c,b)
-  temp.c<-temp[complete.cases(temp),]
-  vars<-data.frame(temp.c[,-1])
-  var.n[i,1]<-nrow(vars)
+lasso_wrapper<-function(y_vars, x_vars = NA, groups = NA){
   
-  ##Setting up models
-  f <- as.formula(y ~ .)
-  y <- temp.c$dat.i.c
-  # Second step: using model.matrix to take advantage of f
-  x <- model.matrix(f, vars)[, -1]
-  
-  #find best lambda
-  cv_model <- cv.glmnet(x, y, alpha = 1, nfolds=50)
-  best_lambda <- cv_model$lambda.min
-  
-  bm<-glmnet(x, y,alpha=1,lambda = best_lambda,standardize = F)
-  print(bm)
-  coef(bm)
-  test<-coef(bm)
-  test2<-data.frame(test@Dimnames[1],as.matrix(test))
-  test3<-test2[-1,]
-  sig<-test3[test3$s0!=0,]
-  if(nrow(sig)>0){
-    col.b<-data.frame(rep(colnames(a[i]),nrow(sig)),sig)
-    collect<-rbind(collect,col.b)
+  if(length(x_vars)>1 & length(groups)>1){
+    var.n<-data.frame()
+    collect<-data.frame()
+    a<-y_vars
+    b<-x_vars
+    for(i in 1:ncol(a)){
+      dat.i.c<-a[,i]
+      temp<-data.frame(dat.i.c,b)
+      temp.c<-temp[complete.cases(temp),]
+      vars<-data.frame(temp.c[,-1])
+      temp.groups<-groups[complete.cases(temp)]
+      var.n[i,1]<-nrow(vars)
+      
+      ##Setting up models
+      f <- as.formula(y ~ .*temp.groups)
+      y <- temp.c$dat.i.c
+      # Second step: using model.matrix to take advantage of f
+      x <- model.matrix(f, vars)[, -1]
+      
+      #find best lambda
+      cv_model <- cv.glmnet(x, y, alpha = 1, nfolds=50)
+      best_lambda <- cv_model$lambda.min
+      
+      bm<-glmnet(x, y,alpha=1,lambda = best_lambda,standardize = F)
+      print(bm)
+      coef(bm)
+      test<-coef(bm)
+      test2<-data.frame(test@Dimnames[1],as.matrix(test))
+      test3<-test2[-1,]
+      sig<-test3[test3$s0!=0,]
+      if(nrow(sig)>0){
+        col.b<-data.frame(rep(colnames(a[i]),nrow(sig)),sig)
+        collect<-rbind(collect,col.b)
+      }
+    }
+    collect[,2]<-gsub("temp.groups","",collect[,2])
+    stat<-summary(var.n$V1)
+    print("Running glmnet models as y ~ x*group; make sure your group factor is set up so that the first term is the comparison group")
+    print("LASSO requires complete data to estimate parameters, so rows with incomplete data were removed to complete each comparison. The following are summary statistics of the number of rows (e.g., samples, participants, etc.) included for the LASSO estimates:")
+    print(stat)
   }
+  
+  
+  if(length(x_vars)>1 & length(groups)==1){
+    var.n<-data.frame()
+    collect<-data.frame()
+    a<-y_vars
+    b<-data.frame(x_vars)
+    for(i in 1:ncol(a)){
+      dat.i.c<-a[,i]
+      temp<-data.frame(dat.i.c,b)
+      temp.c<-temp[complete.cases(temp),]
+      vars<-data.frame(temp.c[,-1])
+      var.n[i,1]<-nrow(vars)
+      
+      ##Setting up models
+      f <- as.formula(y ~ .)
+      y <- temp.c$dat.i.c
+      # Second step: using model.matrix to take advantage of f
+      x <- model.matrix(f, vars)[, -1]
+      
+      #find best lambda
+      cv_model <- cv.glmnet(x, y, alpha = 1, nfolds=50)
+      best_lambda <- cv_model$lambda.min
+      
+      bm<-glmnet(x, y,alpha=1,lambda = best_lambda,standardize = F)
+      print(bm)
+      coef(bm)
+      test<-coef(bm)
+      test2<-data.frame(test@Dimnames[1],as.matrix(test))
+      test3<-test2[-1,]
+      sig<-test3[test3$s0!=0,]
+      if(nrow(sig)>0){
+        col.b<-data.frame(rep(colnames(a[i]),nrow(sig)),sig)
+        collect<-rbind(collect,col.b)
+      }
+    }
+    stat<-summary(var.n$V1)
+    print("Running glmnet models as y ~ x")
+    print("WARNING: LASSO requires complete data to estimate parameters, so rows with incomplete data were removed to complete each comparison. The following are summary statistics of the number of rows (e.g., samples, participants, etc.) included for the LASSO estimates:")
+    print(stat)
+  }
+  
+
+  if(length(x_vars)==1 & length(groups)>1){
+    var.n<-data.frame()
+    collect<-data.frame()
+    a<-y_vars
+    b<-groups
+    for(i in 1:ncol(a)){
+      dat.i.c<-a[,i]
+      temp<-data.frame(dat.i.c,b)
+      temp.c<-temp[complete.cases(temp),]
+      temp.groups<-groups[complete.cases(temp)]
+      vars<-data.frame(temp.c[,-1])
+      var.n[i,1]<-nrow(vars)
+      
+      ##Setting up models
+      f <- as.formula(y ~ .)
+      y <- temp.c$dat.i.c
+      # Second step: using model.matrix to take advantage of f
+      x <- model.matrix(~factor(c(temp.groups)))
+
+      bm<-glmnet(x, y,alpha=1,lambda = best_lambda,standardize = F)
+      print(bm)
+      coef(bm)
+      test<-coef(bm)
+      test2<-data.frame(test@Dimnames[1],as.matrix(test))
+      test3<-test2[-1,]
+      sig<-test3[test3$s0!=0,]
+      if(nrow(sig)>0){
+        col.b<-data.frame(rep(colnames(a[i]),nrow(sig)),sig)
+        collect<-rbind(collect,col.b)
+      }
+    }
+    stat<-summary(var.n$V1)
+    print("Running glmnet models as y ~ group")
+    print("WARNING: LASSO requires complete data to estimate parameters, so rows with incomplete data were removed to complete each comparison. The following are summary statistics of the number of rows (e.g., samples, participants, etc.) included for the LASSO estimates:")
+    print(stat)
+  }
+  
+  
+  return(collect)
 }
-summary(var.n$V1)
+
+collect<-lasso_wrapper(y_vars = dat.inf.scale, x_vars = dat.mom.scale)
 ```
 
+-   there are three modes to this function depending on the input
+    parameters:
+    -   glmnet model as y ~ variable\*group
+    -   glmnet model as y ~ variable
+    -   glmnet model as y ~ group
 -   Now we need to pull the significant associations and run the
     univariate stats on them with an anova
 -   Keep in mind that we are using the transformed data for these
@@ -486,28 +642,115 @@ summary(var.n$V1)
     it:
 
 ``` r
-#keep vars that have sig terms
-overall<-data.frame()
-for(i in 1:nrow(collect)){
+lasso_stats<-function(collect, y_vars, x_vars = NA, groups = NA){
+  #by y~x*group
+  if(length(x_vars)>1 & length(groups)>1){
+    a<-y_vars
+    b<-x_vars
+    groups<-groups
+    overall<-data.frame()
+    for(i in 1:nrow(collect)){
+      
+      y<-a[,colnames(a)%in%collect[i,1]]
+      vars<-b[,colnames(b)%in%gsub("\\:.*","",collect[i,2])]
+      
+      if(grepl("\\:",collect[i,2])){
+        m<-summary(aov(y~vars*groups))
+        rsq<-summary(lm(y~vars*groups))
+        r<-rsq$adj.r.squared
+        c<-cor.test(y,vars)
+        
+        #collect p values
+        p<-m[[1]][["Pr(>F)"]][1:3]
+        model<-data.frame(cbind(collect[i,1],collect[i,2],r,c$estimate,p[1], p[2], p[3]))
+        colnames(model)<-c("measure","xvar","r2","correlation","p-value xvar", "p-value group", "p-value interaction")
+        
+        overall<-rbind(overall,model)
+      }
+      if(grepl("\\:",collect[i,2])==FALSE){
+        m<-summary(aov(y~vars))
+        rsq<-summary(lm(y~vars))
+        r<-rsq$adj.r.squared
+        c<-cor.test(y,vars)
+        
+        #collect p values
+        p<-m[[1]][["Pr(>F)"]][1]
+        model<-data.frame(cbind(collect[i,1],collect[i,2],r,c$estimate,p, NA, NA))
+        colnames(model)<-c("measure","xvar","r2","correlation","p-value xvar", "p-value group", "p-value interaction")
+        
+        overall<-rbind(overall,model)
+      }
+    }
+  }
   
-  y<-a[,colnames(a)%in%collect[i,1]]
-  vars<-b[,colnames(b)%in%collect[i,2]]
+  #by y~x
+  if(length(x_vars)>1 & length(groups)==1){
+    a<-y_vars
+    b<-x_vars
+    groups<-groups
+    overall<-data.frame()
+    for(i in 1:nrow(collect)){
+      
+      y<-a[,colnames(a)%in%collect[i,1]]
+      vars<-b[,colnames(b)%in%gsub("\\:.*","",collect[i,2])]
+      
+
+      m<-summary(aov(y~vars))
+      rsq<-summary(lm(y~vars))
+      r<-rsq$adj.r.squared
+      c<-cor.test(y,vars)
+      
+      #collect p values
+      p<-m[[1]][["Pr(>F)"]][1]
+      model<-data.frame(cbind(collect[i,1],collect[i,2],r,c$estimate,p))
+      colnames(model)<-c("measure","xvar","r2","correlation","p-value xvar")
+      
+      overall<-rbind(overall,model)
+    }
+  }
   
-  m<-summary(aov(y~vars))
-  rsq<-summary(lm(y~vars))
-  r<-rsq$adj.r.squared
-  c<-cor.test(y,vars)
   
-  #change to 1
-  p<-m[[1]][["Pr(>F)"]][1]
+  #by y~group
+  if(length(x_vars)==1 & length(groups)>1){
+    a<-y_vars
+    b<-x_vars
+    groups<-groups
+    overall<-data.frame()
+    for(i in 1:nrow(collect)){
+      
+      y<-a[,colnames(a)%in%collect[i,1]]
+      vars<-groups
+      
+      m<-summary(aov(y~vars))
+      rsq<-summary(lm(y~vars))
+      r<-rsq$adj.r.squared
+      #c<-cor.test(y,vars)
+      
+      #collect p values
+      p<-m[[1]][["Pr(>F)"]][1]
+      model<-data.frame(cbind(collect[i,1],collect[i,2],r,p))
+      colnames(model)<-c("measure","group","r2","p-value xvar")
+      
+      overall<-rbind(overall,model)
+    }
+  }
   
-  model<-data.frame(collect[i,1],collect[i,2],r,c$estimate,p)
-  colnames(model)<-c("measure","gene","r2","correlation","p-value")
-  
-  overall<-rbind(overall,model)
+  return(overall)
 }
 
-p.adj<-p.adjust(overall$`p-value`,method="BH")
+overall<-lasso_stats(collect = collect, y_vars = dat.inf.scale, x_vars = dat.mom.scale, groups = NA)
+```
+
+-   as before, there are three modes to this function depending on the
+    input parameters:
+    -   aov model as y ~ variable\*group
+    -   aov model as y ~ variable
+    -   glmnet model as y ~ group
+-   We need to perform FDR correction on out p-values so let’s do that
+    real quick and append to the table
+
+``` r
+p.adj<-p.adjust(overall$`p-value xvar`,method="BH")
 
 overall.final<-cbind(overall,p.adj)
 ```
@@ -517,34 +760,44 @@ overall.final<-cbind(overall,p.adj)
     r-squared, correlation coefficient (spearman is the default, I
     believe), unadjusted p value, and Benjamini-Hochberg adjusted p
     value
-
     -   I have both r-squared and correlation in here to represent the
         strength of association in the regression (r-squared) and the
         direction of association (positive vs negative
         correlation)–useful info to have if you want to make a table of
         the data rather than show plots
+-   In the case where you have group comparisons, you’ll want to melt
+    the table and adjust all the p-values before recasting, like so
+
+``` r
+collect2<-lasso_wrapper(y_vars = dat.inf.scale, x_vars = dat.mom.scale, groups = groups)
+overall2<-lasso_stats(collect = collect2, y_vars = dat.inf.scale, x_vars = dat.mom.scale, groups = groups)
+
+overall_melt<-melt(overall2[,-c(3:4)], id.vars = c("measure", "xvar"))
+temp<-p.adjust(overall_melt$value)
+padj<-data.frame(overall_melt[,-4],temp)
+overall.final2<-dcast(padj, measure + xvar ~ variable)
+```
+
+    ## Using temp as value column: use value.var to override.
 
 -   I like seeing the data associations, so let’s plot the results.
     Easier if you export as a tiff file and check the output there, but
     we’ll look at the output here
 
--   Note that this plotting code is really bad since it relies on a
-    hard-coded “if” block to correctly read in the variables that it
-    should be plotting from the overall.final-formatted results (though
-    this version should be way better than previous versions). But it
-    works!
-
 ``` r
 #######
 #plot sig terms
-par(mfrow=c(3,5),mar=c(4,4,4,2))
-sig<-overall.final[overall.final$`p-value`<0.1,]
+sig<-overall.final[overall.final$p.adj<0.1,]
 
+
+y_vars = dat.inf.scale
+x_vars = dat.mom.scale
+#par(mfrow=c(3,5),mar=c(4,4,4,2))
 for(i in 1:nrow(sig)){
-  if(sig[i,2] %in% colnames(b)){
+  if(sig[i,2] %in% colnames(x_vars)){
 
-    dat.i.c<-a[,which(colnames(a)==sig[i,1])]
-    temp<-data.frame(dat.i.c,b)
+    dat.i.c<-y_vars[,which(colnames(y_vars)==sig[i,1])]
+    temp<-data.frame(dat.i.c,x_vars)
     temp.c<-temp[complete.cases(temp),]
     vars<-data.frame(temp.c[,-1])
     var.n<-sig[i,1]
@@ -557,7 +810,7 @@ for(i in 1:nrow(sig)){
 }
 ```
 
-![](20230324_Workshopcode_2_files/figure-markdown_github/unnamed-chunk-16-1.png)
+![](20230324_Workshopcode_2_files/figure-markdown_github/unnamed-chunk-18-1.png)
 
 -   One other thing I have done is center-log transform the microbiome
     data before analysis to normalize the count data using the R package
