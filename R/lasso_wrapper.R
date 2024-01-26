@@ -87,7 +87,7 @@ lasso_wrapper<-function(y_vars, x_vars = NA, groups = NA){
   if(length(x_vars)==1 & length(groups)>1){
     var.n<-data.frame()
     collect<-data.frame()
-    a<-y_vars
+    a<-data.frame(y_vars)
     b<-groups
     for(i in 1:ncol(a)){
       dat.i.c<-a[,i]
@@ -102,6 +102,10 @@ lasso_wrapper<-function(y_vars, x_vars = NA, groups = NA){
       y <- temp.c$dat.i.c
       # Second step: using model.matrix to take advantage of f
       x <- model.matrix(~factor(c(temp.groups)))
+
+      #find best lambda
+      cv_model <- cv.glmnet(x, y, alpha = 1, nfolds=50)
+      best_lambda <- cv_model$lambda.min
       
       bm<-glmnet(x, y,alpha=1,lambda = best_lambda,standardize = F)
       print(bm)
