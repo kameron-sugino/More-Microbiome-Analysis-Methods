@@ -1,37 +1,40 @@
-# More-Microbiome-Analysis-Methods
+-   [1 Introduction](#introduction)
+-   [2 Installing R Packages](#installing-r-packages)
+-   [3 Overview of the CHOICE dataset](#overview-of-the-choice-dataset)
+    -   [3.1 Alpha diversity AICc models](#alpha-diversity-aicc-models)
+-   [4 Beta diversity AICc](#beta-diversity-aicc)
+-   [5 Variable selection using LASSO
+    regression](#variable-selection-using-lasso-regression)
+    -   [5.1 Simple statistics on LASSO-selected
+        features](#simple-statistics-on-lasso-selected-features)
+    -   [5.2 Plotting significant terms](#plotting-significant-terms)
 
-This code is a collection of all the code produced during my postdoc. We
-will cover repeated measures regression with the lmer package, basic
+More-Microbiome-Analysis-Methods
+
+This code is a follow up to [part
+1](https://github.com/kameron-sugino/Basics-of-Microbiome-Data-Analysis.git)
+and is a collection of all the code produced during my postdoc. We will
+cover repeated measures regression with the lmer package, basic
 regression model selection criteria using AICc, PCoA model selection
 criteria using AICc, and variable selection using LASSO regression.
 
-## Things you’ll need
-
--   Base R: <https://www.r-project.org/>
--   R Studio: <https://rstudio.com/products/rstudio/download/>
--   Dataset
-
-# 1) Introduction
+# 1 Introduction
 
 -   This code is just a compilation of all the code I’ve produced during
     my postdoc. It will not include a primer on how to use R or any of
     the code for looking at alpha diversity, beta diversity, negative
-    bionomial regressions, or anything covered in the first workshop
-    (V1.3).
-
--   The code used will also likely be very messy and not converted to
-    functions, making them bulky to use (since they aren’t being held in
-    a package); might go back and improve this later, but who knows!
+    bionomial regressions, or anything covered in the [first
+    workshop](https://github.com/kameron-sugino/Basics-of-Microbiome-Data-Analysis.git).
 
 -   The data used here will span two to three papers as the methods used
-    were different between each. If I get around to writing it, we’ll
-    discuss pros and cons of each method later (sorry)
+    were different between each.
 
 -   More information on the metagenomics or sequence processing
     techniques can be found in the reference paper (PMID: 35966074) and
-    in the companion folder
+    in my companion
+    [repository](https://github.com/kameron-sugino/Basics-of-shotgun-metagenomics-sequence-processing.git)
 
-# 2) Installing R Packages
+# 2 Installing R Packages
 
 -   Anyway, let’s start by installing the packages you’ll need for this.
 
@@ -47,7 +50,6 @@ install.packages("lme4")
 install.packages("FSA")
 install.packages("MuMIn")
 install.packages("glmnet")
-install.packages("gglasso")
 install.packages("reshape2")
 ```
 
@@ -77,9 +79,10 @@ require("lme4")
 require("FSA")
 require("MuMIn")
 require("glmnet")
-require("gglasso")
 require("reshape2")
 ```
+
+# 3 Overview of the CHOICE dataset
 
 -   This data is from the CHOICE study conducted at CU. Briefly, women
     with GDM were fed either a CHOICE diet (60% complex carbohydrate/25%
@@ -97,8 +100,8 @@ require("reshape2")
     also did a taxa comparison using AIC to narrow down my models, but I
     have a better method of doing this that we will go over later
 
--   The paper on this data can be found here
-    <https://pubmed.ncbi.nlm.nih.gov/35966074/>
+-   The paper on this data can be found
+    [here](https://pubmed.ncbi.nlm.nih.gov/35966074/)
 
 -   Let’s get to reading our data in.
 
@@ -107,6 +110,8 @@ fam<-read.csv("inf_MB_fam_paired_noabx.csv",header=T,fill=T)
 cho_meta<-read.csv("inf_meta_paired_noabx.csv",header=T,fill=T)
 cho_meta.e<-cho_meta[,-c(1:4)] #we're removing metadata values we don't need (participant ID, timepoint, group, etc.) leaving us with continuous variables from maternal plasma measurements
 ```
+
+## 3.1 Alpha diversity AICc models
 
 -   I said I wouldn’t be doing alpha/beta diversity here (I lied!), but
     since I did a longitudinal analysis of the data that wasn’t in the
@@ -314,6 +319,8 @@ Anova(m1,type="III")
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
+# 4 Beta diversity AICc
+
 -   Let’s move on to beta diversity. You can actually do a repeated
     measures PERMANOVA by treating each timepoint as a block that is
     linked via participant ID.
@@ -432,6 +439,8 @@ bray_AICc(variables = cho_meta.e, otus = fam[,-c(1:4)], group = fam$Group, time 
 -   The numbers are negative, but (as I’ve read online) this isn’t an
     issue–you still pick the lowest value (i.e., most negative number in
     this case), which is the simple model again (AICc = -87.45)
+
+# 5 Variable selection using LASSO regression
 
 -   Now, I’m going to skip the taxa comparisons because it’s a truly
     horrible way to do those via AICc in a negative binomial framework
@@ -632,6 +641,9 @@ collect<-lasso_wrapper(y_vars = dat.inf.scale, x_vars = dat.mom.scale)
     -   glmnet model as y ~ variable\*group
     -   glmnet model as y ~ variable
     -   glmnet model as y ~ group
+
+## 5.1 Simple statistics on LASSO-selected features
+
 -   Now we need to pull the significant associations and run the
     univariate stats on them with an anova
 -   Keep in mind that we are using the transformed data for these
@@ -765,6 +777,9 @@ overall.final<-cbind(overall,p.adj)
         direction of association (positive vs negative
         correlation)–useful info to have if you want to make a table of
         the data rather than show plots
+
+## 5.2 Plotting significant terms
+
 -   In the case where you have group comparisons, you’ll want to melt
     the table and adjust all the p-values before recasting, like so
 

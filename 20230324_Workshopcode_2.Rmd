@@ -3,29 +3,25 @@ title: "README"
 output:
   md_document:
     variant: markdown_github
-date: '2023-03-24'
+    toc: true # table of content true
+    toc_depth: 3  # upto three depths of headings (specified by #, ## and ###)
+    number_sections: true  ## if you want number sections at each table header
+date: '2024-02-20'
 ---
 
+More-Microbiome-Analysis-Methods
 
-# More-Microbiome-Analysis-Methods
-This code is a collection of all the code produced during my postdoc. We will cover repeated measures regression with the lmer package, basic regression model selection criteria using AICc, PCoA model selection criteria using AICc, and variable selection using LASSO regression.
+This code is a follow up to [part 1](https://github.com/kameron-sugino/Basics-of-Microbiome-Data-Analysis.git) and is a collection of all the code produced during my postdoc. We will cover repeated measures regression with the lmer package, basic regression model selection criteria using AICc, PCoA model selection criteria using AICc, and variable selection using LASSO regression.
 
-## Things you'll need
-* Base R: https://www.r-project.org/
-* R Studio: https://rstudio.com/products/rstudio/download/
-* Dataset
+# Introduction
 
-# 1) Introduction
+* This code is just a compilation of all the code I've produced during my postdoc. It will not include a primer on how to use R or any of the code for looking at alpha diversity, beta diversity, negative bionomial regressions, or anything covered in the [first workshop](https://github.com/kameron-sugino/Basics-of-Microbiome-Data-Analysis.git).
 
-* This code is just a compilation of all the code I've produced during my postdoc. It will not include a primer on how to use R or any of the code for looking at alpha diversity, beta diversity, negative bionomial regressions, or anything covered in the first workshop (V1.3).
+* The data used here will span two to three papers as the methods used were different between each.
 
-* The code used will also likely be very messy and not converted to functions, making them bulky to use (since they aren't being held in a package); might go back and improve this later, but who knows!
+* More information on the metagenomics or sequence processing techniques can be found in the reference paper (PMID: 35966074) and in my companion [repository](https://github.com/kameron-sugino/Basics-of-shotgun-metagenomics-sequence-processing.git)
 
-* The data used here will span two to three papers as the methods used were different between each. If I get around to writing it, we'll discuss pros and cons of each method later (sorry)
-
-* More information on the metagenomics or sequence processing techniques can be found in the reference paper (PMID: 35966074) and in the companion folder
-
-# 2) Installing R Packages
+# Installing R Packages
 
 * Anyway, let's start by installing the packages you'll need for this.
   
@@ -41,9 +37,9 @@ install.packages("lme4")
 install.packages("FSA")
 install.packages("MuMIn")
 install.packages("glmnet")
-install.packages("gglasso")
 install.packages("reshape2")
 ```
+
 
 * Packages are written by members of the R community, so some caution should be used when trying out random packages with little/no documentation.
   * You can find the documentation for any package in R (in this case the vegan package) like so:
@@ -67,7 +63,6 @@ require("lme4")
 require("FSA")
 require("MuMIn")
 require("glmnet")
-require("gglasso")
 require("reshape2")
 ```
 ```{r,include=FALSE}
@@ -82,27 +77,31 @@ require("lme4")
 require("FSA")
 require("MuMIn")
 require("glmnet")
-require("gglasso")
 require("reshape2")
 ```
+
+# Overview of the CHOICE dataset
 
 * This data is from the CHOICE study conducted at CU. Briefly, women with GDM were fed either a CHOICE diet (60% complex carbohydrate/25% fat/15% protein, n=18) or a conventional diet (CONV, 40% complex carbohydrate/45% fat/15% protein, n=16) from 30 weeks' gestation through delivery.
 * We will be looking at the infant stool samples collected at 2 weeks, 2 months, and 4-5 months of age and their association with diet group, gestational weight gain, delivery mode (CS/vaginal), breastfeeding status (exclusive BF, mixed, formula), and sex (male/female).
 * Here, we will look at longitudinal analyses for alpha, and beta. I also did a taxa comparison using AIC to narrow down my models, but I have a better method of doing this that we will go over later
 
-* The paper on this data can be found here https://pubmed.ncbi.nlm.nih.gov/35966074/
+* The paper on this data can be found [here](https://pubmed.ncbi.nlm.nih.gov/35966074/)
 
 * Let's get to reading our data in.
 
 ```{r setup,echo=F}
-knitr::opts_knit$set(root.dir = "C:/Users/Kam/Desktop/Projects/More-Microbiome-Analysis-Methods/data")
+knitr::opts_knit$set(root.dir = "C:/Users/ksugino/Desktop/Github_projects/More-Microbiome-Analysis-Methods/data")
 ```
+
 
 ```{r}
 fam<-read.csv("inf_MB_fam_paired_noabx.csv",header=T,fill=T)
 cho_meta<-read.csv("inf_meta_paired_noabx.csv",header=T,fill=T)
 cho_meta.e<-cho_meta[,-c(1:4)] #we're removing metadata values we don't need (participant ID, timepoint, group, etc.) leaving us with continuous variables from maternal plasma measurements
 ```
+
+## Alpha diversity AICc models
 
 * I said I wouldn't be doing alpha/beta diversity here (I lied!), but since I did a longitudinal analysis of the data that wasn't in the previous workshop code I'll run through the setup quickly
 * Start with calculating chao and shannon diversity; there are many other types of alpha diversity measures (many can be calculated by vegan) but they generally tell you the same thing about richness or overall diversity of the ecosystem
@@ -264,6 +263,8 @@ m1 <- lmer(shan~fam$Group*fam$time+(1|fam$PTID)) #simple model
 Anova(m1,type="III")
 ```
 
+# Beta diversity AICc
+
 * Let's move on to beta diversity. You can actually do a repeated measures PERMANOVA by treating each timepoint as a block that is linked via participant ID.
 * I'm using other people's code to calculate PERMANOVA AIC, so see the function below
 
@@ -367,6 +368,8 @@ bray_AICc(variables = cho_meta.e, otus = fam[,-c(1:4)], group = fam$Group, time 
 ```
 
 * The numbers are negative, but (as I've read online) this isn't an issue--you still pick the lowest value (i.e., most negative number in this case), which is the simple model again (AICc = -87.45)
+
+# Variable selection using LASSO regression
 
 * Now, I'm going to skip the taxa comparisons because it's a truly horrible way to do those via AICc in a negative binomial framework (at least in my experience). Instead, I'm going to show how to perform variable selection using LASSO regularization using another dataset
 
@@ -538,6 +541,8 @@ collect<-lasso_wrapper(y_vars = dat.inf.scale, x_vars = dat.mom.scale)
   * glmnet model as y ~ variable
   * glmnet model as y ~ group
 
+## Simple statistics on LASSO-selected features
+
 * Now we need to pull the significant associations and run the univariate stats on them with an anova
  * Keep in mind that we are using the transformed data for these analyses; you may want to use the untransformed data for plotting (helps with ease of interpretation sometimes), but play around with the presentation
 * There's probably a better way of doing this, but this is how I did it:
@@ -658,6 +663,8 @@ overall.final<-cbind(overall,p.adj)
 
 * The variable "overall.final" is what we're looking for. In order, the layout tells us which variable is our y, our x, and stats for r-squared, correlation coefficient (spearman is the default, I believe), unadjusted p value, and Benjamini-Hochberg adjusted p value
   * I have both r-squared and correlation in here to represent the strength of association in the regression (r-squared) and the direction of association (positive vs negative correlation)--useful info to have if you want to make a table of the data rather than show plots
+
+## Plotting significant terms
 
 * In the case where you have group comparisons, you'll want to melt the table and adjust all the p-values before recasting, like so
 ```{r,warning=F,results='hide'}
