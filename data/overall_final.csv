@@ -1,0 +1,376 @@
+"measure","xvar","r2","correlation","p.value.xvar","padj"
+"Alanine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.283451421,-0.565047653,0.007606384,0.039073891
+"Alanine","Lactobacillales.Lactobacillaceae.Lactobacillus",0.199464517,0.489378474,0.024348106,0.071894012
+"Arginine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.176024719,-0.466072401,0.033209549,0.0864832
+"Asparagine","Clostridiales.Mogibacteriaceae.unclassified",0.24155144,-0.528652881,0.013745922,0.055427107
+"Asparagine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.121512638,-0.406739482,0.06727649,0.139384992
+"Aspartate","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.10548561,0.387571064,0.082578912,0.157555527
+"Cysteine","Clostridiales.Ruminococcaceae.unclassified",0.189607551,-0.479715721,0.027760006,0.078270695
+"Cysteine","Clostridiales.Mogibacteriaceae.unclassified",0.161759057,-0.451299351,0.040022333,0.098881023
+"Cysteine","Clostridiales.Ruminococcaceae.Anaerotruncus",0.107722299,-0.390302683,0.080253164,0.156223694
+"Cysteine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.094699918,-0.37411886,0.094769535,0.167634791
+"Cysteine","Turicibacterales.Turicibacteraceae.Turicibacter",-0.005295785,-0.212058964,0.356097021,0.437824207
+"Cysteine","Clostridiales.Ruminococcaceae.Ruminococcus",-0.015158168,0.188678934,0.4127369,0.491353452
+"Glutamate","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.226793328,0.515221954,0.016836617,0.063775066
+"Glycine","Bacteroidales.S24.7.unclassified",0.478985084,-0.71065873,0.000305611,0.009027182
+"Glycine","Coriobacteriales.Coriobacteriaceae.Adlercreutzia",0.444888697,0.687491281,0.00057382,0.009781029
+"Glycine","Clostridiales.Mogibacteriaceae.unclassified",0.38672524,0.646056482,0.001556843,0.015997803
+"Glycine","Turicibacterales.Turicibacteraceae.Turicibacter",0.382669289,-0.643067512,0.001663772,0.015997803
+"Leucine","Coriobacteriales.Coriobacteriaceae.Adlercreutzia",0.214093996,0.503377887,0.020005331,0.070112141
+"Isoleucine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.107171574,-0.389631872,0.080819724,0.156223694
+"Lysine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.385425638,-0.645100268,0.001590401,0.015997803
+"Lysine","Clostridiales.Ruminococcaceae.Ruminococcus",0.128100627,0.414361673,0.061827349,0.132854384
+"Methionine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.512302466,-0.732589477,0.000158986,0.006645078
+"Phenylalanine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.105384994,-0.387447731,0.08268509,0.157555527
+"Proline","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.50423759,-0.727341537,0.000186929,0.006650578
+"Serine","Turicibacterales.Turicibacteraceae.Turicibacter",0.208651862,-0.498216087,0.021527781,0.070771764
+"Serine","Coriobacteriales.Coriobacteriaceae.Adlercreutzia",0.18390549,0.474036091,0.029935377,0.080760908
+"Serine","Bacteroidales.S24.7.unclassified",0.131142003,-0.417833583,0.059459427,0.130687675
+"Serine","Clostridiales.Ruminococcaceae.Anaerotruncus",0.125152144,-0.410967805,0.064210617,0.134575444
+"Serine","Clostridiales.Ruminococcaceae.Ruminococcus",0.116265184,0.400564507,0.071950832,0.146638924
+"Threonine","Turicibacterales.Turicibacteraceae.Turicibacter",0.228698068,-0.516975013,0.016404079,0.06277071
+"Threonine","Clostridiales.Mogibacteriaceae.unclassified",0.220141418,0.509052402,0.018432435,0.066463108
+"Threonine","Clostridiales.Lachnospiraceae.unclassified.1",0.143859421,0.432049129,0.050477468,0.11684599
+"Threonine","Bacteroidales.S24.7.unclassified",0.070082898,-0.341436309,0.129823978,0.208051246
+"Threonine","Clostridiales.Ruminococcaceae.Ruminococcus",0.049267065,0.311132948,0.169800642,0.256755003
+"Threonine","Clostridiales.Ruminococcaceae.unclassified",0.021311148,0.265038847,0.245600767,0.33985346
+"Threonine","Clostridiales.Lachnospiraceae.unclassified",-0.042166122,-0.0997105,0.667176697,0.744616849
+"Threonine","Bacteroidales.Porphyromonadaceae.Parabacteroides",-0.049242855,0.056738772,0.807010217,0.857305471
+"Tryptophan","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.187331418,-0.477456645,0.028609756,0.078311377
+"Tyrosine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.462005747,-0.699217749,0.00042015,0.009242847
+"Valine","Coriobacteriales.Coriobacteriaceae.Adlercreutzia",0.161707899,0.451245503,0.040049012,0.098881023
+"Valine","Bacteroidales.S24.7.unclassified",0.096589768,-0.376510663,0.092510765,0.166912311
+"Valine","Clostridiales.Lachnospiraceae.unclassified",0.094967021,-0.374457835,0.094446972,0.167634791
+"Valine","Clostridiales.Ruminococcaceae.Anaerotruncus",0.084165553,-0.360495874,0.10841432,0.184797136
+"Valine","Clostridiales.Mogibacteriaceae.unclassified",0.077092939,0.351053118,0.118674533,0.197790888
+"Valine","Clostridiales.unclassified.unclassified",0.021817384,0.265944571,0.243930533,0.338792407
+"Valine","Clostridiales.Ruminococcaceae.unclassified",0.004678956,0.233334542,0.308707409,0.396456433
+"Valine","Lactobacillales.Lactobacillaceae.Lactobacillus",0.000582829,0.224841472,0.327143209,0.414455079
+"Valine","Clostridiales.Ruminococcaceae.Oscillospira",-0.01080987,0.199325422,0.386362786,0.465871526
+"Valine","Clostridiales.Lachnospiraceae.Coprococcus",-0.019070232,0.178558897,0.438688415,0.515699547
+"Valine","Clostridiales.Lachnospiraceae.unclassified.1",-0.027807321,0.15356772,0.506304119,0.582405045
+"Valine","Turicibacterales.Turicibacteraceae.Turicibacter",-0.041715312,-0.101835425,0.660489132,0.739353506
+"Valine","Clostridiales.Ruminococcaceae.Ruminococcus",-0.043610636,0.092573731,0.689813376,0.765325491
+"Valine","Bacteroidales.Porphyromonadaceae.Parabacteroides",-0.052078606,0.022919948,0.921445224,0.942463269
+"Valine","Bacteroidales.Rikenellaceae.unclassified",-0.052143551,0.021531993,0.926189347,0.943807079
+"Cystine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.217733122,-0.506800223,0.019044368,0.067373944
+"Cystine","Coriobacteriales.Coriobacteriaceae.Adlercreutzia",0.013946471,0.251493833,0.271456909,0.36355836
+"Cystine","Clostridiales.Ruminococcaceae.unclassified",0.006195036,-0.236400686,0.302210128,0.39214117
+"AMP","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.262915064,0.547511928,0.010197491,0.044390133
+"Adenine","Clostridiales.Lachnospiraceae.unclassified",0.18835765,-0.478476507,0.028223627,0.078311377
+"Adenine","Lactobacillales.Lactobacillaceae.Lactobacillus",0.100224788,-0.381068955,0.088316268,0.162346081
+"Adenine","Clostridiales.Ruminococcaceae.Ruminococcus",0.043801203,-0.302673326,0.182325909,0.273488863
+"Adenine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.003380861,-0.230676868,0.314407182,0.399670146
+"Adenine","Clostridiales.Ruminococcaceae.unclassified",-0.008368435,0.205060935,0.372556222,0.452131338
+"Adenine","Turicibacterales.Turicibacteraceae.Turicibacter",-0.022392314,-0.169491302,0.462652413,0.537135154
+"GMP","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.147565314,0.4361044,0.048117289,0.112774897
+"Cytidine","Bacteroidales.S24.7.unclassified",0.108207761,-0.390893045,0.079757005,0.156223694
+"Thymine","Lactobacillales.Lactobacillaceae.Lactobacillus",0.229927654,0.518103533,0.016130405,0.062359814
+"Thymine","Clostridiales.Mogibacteriaceae.unclassified",0.163311868,-0.452930761,0.039220582,0.098709518
+"Thymine","Turicibacterales.Turicibacteraceae.Turicibacter",0.145369151,0.433705768,0.049502778,0.115301503
+"Thymine","Clostridiales.Ruminococcaceae.Ruminococcus",-0.019065241,0.178572172,0.438653817,0.515699547
+"UMP","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.195878166,0.485885026,0.025540823,0.074246578
+"Uracil","Bacteroidales.S24.7.unclassified",0.201709368,-0.49155254,0.023628496,0.070780857
+"IDP","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.093156646,-0.372154287,0.096654972,0.170167204
+"IMP","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.466549855,0.702297915,0.000386195,0.009242847
+"Inosine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.346612196,-0.615858414,0.00295526,0.020909857
+"Inosine","Clostridiales.Mogibacteriaceae.unclassified",0.253259188,-0.53906978,0.011679893,0.049213034
+"Inosine","Lactobacillales.Lactobacillaceae.Lactobacillus",0.225609522,0.514129406,0.017110798,0.064165494
+"Inosine","Clostridiales.Ruminococcaceae.unclassified",0.048501133,-0.309961412,0.171498876,0.25828144
+"Hypoxanthine","Coriobacteriales.Coriobacteriaceae.Adlercreutzia",0.091428642,0.369942171,0.098810785,0.172344392
+"Hypoxanthine","Clostridiales.Ruminococcaceae.Ruminococcus",0.061968254,-0.329954302,0.144089884,0.226082454
+"Hypoxanthine","Lactobacillales.Lactobacillaceae.Lactobacillus",0.029417905,0.279189918,0.220341734,0.31180434
+"Hypoxanthine","Clostridiales.Mogibacteriaceae.unclassified",0.015238765,0.253922875,0.266698836,0.359755624
+"Hypoxanthine","Clostridiales.Lachnospiraceae.Coprococcus",-0.001295686,0.220837267,0.336057814,0.422891544
+"Hypoxanthine","Bacteroidales.Rikenellaceae.unclassified",-0.013961862,0.191666979,0.405237767,0.485508507
+"Hypoxanthine","Bacteroidales.Porphyromonadaceae.Parabacteroides",-0.0188411,-0.179167394,0.437104124,0.515699547
+"Hypoxanthine","Clostridiales.Lachnospiraceae.unclassified.1",-0.034239997,0.132181704,0.567892837,0.641445222
+"Hypoxanthine","Clostridiales.Ruminococcaceae.unclassified",-0.041229211,0.104078096,0.653457922,0.733672816
+"Hypoxanthine","Turicibacterales.Turicibacteraceae.Turicibacter",-0.052500514,-0.011158497,0.96171245,0.966869085
+"Xanthine","Coriobacteriales.Coriobacteriaceae.Adlercreutzia",0.08259691,0.358423024,0.110609319,0.186840066
+"Xanthine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.024187822,-0.270145203,0.236280158,0.331854154
+"Xanthine","Clostridiales.Ruminococcaceae.Ruminococcus",0.015255228,-0.253953671,0.266638852,0.359755624
+"Xanthine","Clostridiales.Lachnospiraceae.Coprococcus",0.011157546,0.24617,0.282070904,0.371145926
+"Xanthine","Clostridiales.Mogibacteriaceae.unclassified",0.005528726,0.235058056,0.305044854,0.394454553
+"Xanthine","Clostridiales.Ruminococcaceae.unclassified",-0.030506898,0.144977403,0.530649332,0.606687499
+"Xanthine","Bacteroidales.S24.7.unclassified",-0.052585756,-0.006597853,0.977355946,0.979969198
+"Allantoate","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.040180577,-0.296936943,0.191168398,0.282490289
+"(S)(+)-Allantoin","Clostridiales.Ruminococcaceae.Ruminococcus",0.277443047,0.559974013,0.008292996,0.04091939
+"(S)(+)-Allantoin","Lactobacillales.Lactobacillaceae.Lactobacillus",0.127037003,0.413140597,0.062676952,0.133544642
+"Urate","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.089496324,-0.367452728,0.101278771,0.173622921
+"Pyridoxal","Bacteroidales.S24.7.unclassified",0.419206481,0.669511879,0.000901466,0.013001916
+"Pyridoxal","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.392370921,-0.650194105,0.001418435,0.015644508
+"Pyridoxal","Clostridiales.Mogibacteriaceae.unclassified",0.395714975,-0.652632536,0.001341847,0.015644508
+"Pyridoxal","Clostridiales.Ruminococcaceae.unclassified",0.100853427,-0.381851745,0.087610354,0.161841788
+"4-Pyridoxate","Clostridiales.Mogibacteriaceae.unclassified",0.452313633,-0.692602304,0.000501799,0.009408726
+"4-Pyridoxate","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.206743338,-0.496393162,0.022087032,0.070771764
+"Nicotinamide","Bacteroidales.S24.7.unclassified",0.326378623,-0.600049741,0.004032072,0.026526792
+"Nicotinamide","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.201223989,0.491083281,0.023782368,0.070780857
+"Nicotinamide","Clostridiales.Ruminococcaceae.unclassified",0.12855629,0.414883689,0.06146682,0.132854384
+"Phosphate","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.072248345,-0.344435666,0.126269532,0.203223496
+"Diphosphate","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.114788417,-0.398809473,0.073322872,0.147680897
+"D-Glucose","Clostridiales.Mogibacteriaceae.unclassified",0.343381936,-0.613361915,0.003107206,0.021185493
+"D-Glucose","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.205462534,-0.49516604,0.022469983,0.070771764
+"D-Glucose","Clostridiales.Ruminococcaceae.unclassified",0.03311321,-0.285407689,0.20980579,0.302604505
+"D-Glucose","Clostridiales.Ruminococcaceae.Anaerotruncus",-0.00419343,-0.214513966,0.350424371,0.433693529
+"D-Hexose 6-phosphate","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.261828144,0.546568145,0.010355162,0.044390133
+"D-Glyceraldehyde 3-phosphate","Clostridiales.Mogibacteriaceae.unclassified",0.267033785,-0.551073585,0.009620026,0.043463973
+"D-Glyceraldehyde 3-phosphate","Bacteroidales.S24.7.unclassified",0.194131144,0.484174128,0.026141625,0.075408533
+"2-Phospho-D-glyceric acid","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.313927437,0.590111061,0.004862994,0.030454174
+"2-Phospho-D-glyceric acid","Bacteroidales.S24.7.unclassified",0.250575723,-0.536700043,0.012126111,0.050525461
+"2-Phospho-D-glyceric acid","Clostridiales.Ruminococcaceae.unclassified",-0.001789792,0.219771921,0.338453544,0.424481869
+"Pyruvate","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.547240401,-0.754902895,7.65e-05,0.005780942
+"Pyruvate","Clostridiales.Mogibacteriaceae.unclassified",0.262558724,-0.547202694,0.010248935,0.044390133
+"Pyruvate","Clostridiales.Ruminococcaceae.unclassified",0.013226175,-0.250129698,0.27415227,0.36586157
+"Lactate","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.471884059,-0.705896491,0.000349525,0.009242847
+"Lactate","Lactobacillales.Lactobacillaceae.Lactobacillus",0.206057184,0.495736144,0.022291416,0.070771764
+"Lactate","Clostridiales.Ruminococcaceae.unclassified",0.114447192,-0.398402852,0.073643541,0.147680897
+"Mannitol","Clostridiales.Mogibacteriaceae.unclassified",0.246783357,-0.533333094,0.012783838,0.052680651
+"Mannitol","Bacteroidales.S24.7.unclassified",0.19068931,0.480785654,0.027364584,0.078270695
+"D-Ribose","Clostridiales.Mogibacteriaceae.unclassified",0.34458518,-0.614293025,0.003049789,0.021179092
+"D-Ribose","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.22447578,-0.513080882,0.017377299,0.064383494
+"Succinate","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.462388717,-0.699477863,0.000417187,0.009242847
+"Succinate","Clostridiales.Mogibacteriaceae.unclassified",0.361778405,-0.627446799,0.002328777,0.018286235
+"Succinate","Clostridiales.Ruminococcaceae.unclassified",0.128142903,-0.414410133,0.061793813,0.132854384
+"Succinate","Coriobacteriales.Coriobacteriaceae.Adlercreutzia",-0.032730024,-0.137500827,0.552272102,0.627581934
+"alpha-D-Ribose 1-phosphate","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.313794382,0.590003952,0.004872668,0.030454174
+"Glutathione","Clostridiales.Ruminococcaceae.Ruminococcus",0.090078204,0.368204147,0.10052913,0.173622921
+"Glutathione","Clostridiales.Ruminococcaceae.unclassified",0.089652458,-0.367654505,0.101077071,0.173622921
+"Glutathione","Clostridiales.Mogibacteriaceae.unclassified",0.075385235,-0.348734818,0.121296876,0.199873674
+"Glutathione","Clostridiales.unclassified.unclassified",0.011848024,0.247498733,0.279397981,0.371071404
+"Glutathione","Bacteroidales.S24.7.unclassified",-0.046333234,-0.077352617,0.738931632,0.811677169
+"Glutathione","Clostridiales.Ruminococcaceae.Anaerotruncus",-0.048142968,-0.065300691,0.778540429,0.841362135
+"Glutathione","Clostridiales.Lachnospiraceae.unclassified",-0.048689712,0.061194553,0.79216231,0.848745333
+"Glutathione","Bacteroidales.Rikenellaceae.unclassified",-0.050330894,0.046750947,0.840518261,0.882897333
+"Glutathione","Clostridiales.Ruminococcaceae.Oscillospira",-0.050980821,0.039600761,0.864673937,0.903210937
+"Glutathione","Coriobacteriales.Coriobacteriaceae.Adlercreutzia",-0.051366956,-0.034661097,0.881431164,0.918157462
+"Glutathione","Turicibacterales.Turicibacteraceae.Turicibacter",-0.05227772,-0.018334832,0.937126378,0.950854182
+"Glutathione","Bacteroidales.Porphyromonadaceae.Parabacteroides",-0.052333285,-0.016833864,0.942264851,0.952424041
+"Glutathione disulfide","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.040112085,0.296827359,0.191340089,0.282490289
+"5-Oxoproline","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.055701102,0.32080531,0.156220924,0.241081673
+"S-Glutathionyl-L-cysteine","Clostridiales.Mogibacteriaceae.unclassified",0.304858395,-0.582765369,0.005564452,0.032560385
+"S-Glutathionyl-L-cysteine","Clostridiales.Ruminococcaceae.unclassified",0.133197487,-0.420163793,0.057909336,0.130035935
+"S-Glutathionyl-L-cysteine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.034501374,-0.287708716,0.205993156,0.29845372
+"Dehydroascorbate","Lactobacillales.Lactobacillaceae.Lactobacillus",0.203512471,0.493291848,0.023065068,0.070771764
+"Dehydroascorbate","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.082693208,-0.358550621,0.11047328,0.186840066
+"Dehydroascorbate","Coriobacteriales.Coriobacteriaceae.Adlercreutzia",-0.014748066,0.189708559,0.410144353,0.489822077
+"gamma-Glutamyl-Se-methylselenocysteine","Bacteroidales.S24.7.unclassified",0.072743146,-0.345117355,0.125471486,0.203088174
+"gamma-L-Glutamyl-D-alanine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.409173889,-0.662355791,0.001070222,0.014333325
+"gamma-L-Glutamyl-D-alanine","Clostridiales.Ruminococcaceae.unclassified",0.003507855,-0.230938221,0.313843874,0.399670146
+"gamma-Glutamyl-gamma-aminobutyrate","Clostridiales.Mogibacteriaceae.unclassified",0.032019099,0.283580931,0.212865791,0.304674319
+"gamma-Glutamyl-gamma-aminobutyrate","Clostridiales.Ruminococcaceae.Anaerotruncus",0.021017938,-0.264512837,0.246574146,0.339945974
+"gamma-Glutamyl-gamma-aminobutyrate","Bacteroidales.Rikenellaceae.unclassified",0.014325135,0.252208006,0.270052462,0.36297374
+"gamma-Glutamyl-gamma-aminobutyrate","Clostridiales.Lachnospiraceae.Coprococcus",0.010486033,0.244870846,0.284699669,0.37329502
+"gamma-Glutamyl-gamma-aminobutyrate","Clostridiales.Ruminococcaceae.Ruminococcus",-0.018419248,0.180282319,0.434209162,0.51527986
+"gamma-Glutamyl-gamma-aminobutyrate","Turicibacterales.Turicibacteraceae.Turicibacter",-0.020174596,-0.175596508,0.446444442,0.52317708
+"gamma-Glutamyl-gamma-aminobutyrate","Clostridiales.Ruminococcaceae.unclassified",-0.020769961,-0.173978554,0.450710574,0.526531045
+"gamma-Glutamyl-gamma-aminobutyrate","Clostridiales.Ruminococcaceae.Oscillospira",-0.026851154,-0.156497296,0.498127026,0.57653591
+"gamma-Glutamyl-gamma-aminobutyrate","Bacteroidales.S24.7.unclassified",-0.047728475,0.06824917,0.768797181,0.833233939
+"gamma-Glutamyl-gamma-aminobutyrate","Lactobacillales.Lactobacillaceae.Lactobacillus",-0.048305178,0.064109909,0.782484537,0.843194544
+"gamma-Glutamyl-gamma-aminobutyrate","Clostridiales.Lachnospiraceae.unclassified",-0.048635015,-0.061617657,0.790755919,0.848745333
+"gamma-Glutamyl-gamma-aminobutyrate","Coriobacteriales.Coriobacteriaceae.Adlercreutzia",-0.05020515,0.048011534,0.836273232,0.880905792
+"gamma-Glutamyl-gamma-aminobutyrate","Clostridiales.unclassified.unclassified",-0.051851087,-0.027229896,0.906730583,0.934131782
+"gamma-Glutamyl-gamma-aminobutyrate","Clostridiales.Lachnospiraceae.unclassified.1",-0.052027294,-0.023959772,0.917892709,0.942463269
+"gamma-Glutamyl-gamma-aminobutyrate","Bacteroidales.Porphyromonadaceae.Parabacteroides",-0.052630992,-0.000746443,0.997437872,0.997437872
+"(5-L-Glutamyl)-L-glutamine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.203619986,-0.493395365,0.023031876,0.070771764
+"L-Homocysteine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.056832463,0.322476107,0.153954184,0.238565368
+"Dimethylglycine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.075099659,-0.348345627,0.121741156,0.199873674
+"L-Citrulline","Clostridiales.Ruminococcaceae.unclassified",0.165951182,-0.455690271,0.037892977,0.096665758
+"L-Citrulline","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.127884953,-0.414114362,0.061998712,0.132854384
+"Spermidine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.352775424,0.62059379,0.002684092,0.019356432
+"Spermine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.359079915,0.625400607,0.002430467,0.018600515
+"5-Guanidino-2-oxopentanoate","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.134104071,-0.421187449,0.057238213,0.129303193
+"Creatine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.456613151,0.695544746,0.00046395,0.009242847
+"Creatine","Clostridiales.Mogibacteriaceae.unclassified",0.273195267,0.55635915,0.008812569,0.041703671
+"Creatine","Coriobacteriales.Coriobacteriaceae.Adlercreutzia",0.206384374,0.496049549,0.022193735,0.070771764
+"Creatine","Clostridiales.Ruminococcaceae.unclassified",0.0116827,0.247181239,0.28003522,0.371071404
+"Creatinine","Coriobacteriales.Coriobacteriaceae.Adlercreutzia",0.396139948,0.652941767,0.001332389,0.015644508
+"Creatinine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.153630838,0.442661604,0.044482087,0.10631921
+"4-Acetamidobutanoate","Turicibacterales.Turicibacteraceae.Turicibacter",0.135315072,0.422550965,0.056353514,0.128840997
+"4-Acetamidobutanoate","Bacteroidales.S24.7.unclassified",0.10431032,0.386127964,0.083827653,0.157966684
+"4-Acetamidobutanoate","Clostridiales.Mogibacteriaceae.unclassified",0.094905452,-0.374379726,0.094521227,0.167634791
+"4-Acetamidobutanoate","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.068442166,-0.339146071,0.132585666,0.211036492
+"Guanidinoacetate","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.052485789,0.316008702,0.16285727,0.249271332
+"Pantothenate","Clostridiales.Ruminococcaceae.unclassified",0.220934319,-0.509791725,0.018235034,0.066389687
+"Pantothenate","Turicibacterales.Turicibacteraceae.Turicibacter",0.076523056,-0.350281178,0.119543139,0.198356978
+"Pantothenate","Clostridiales.Ruminococcaceae.Ruminococcus",0.050211662,0.312571718,0.167730916,0.255687371
+"Taurine","Bacteroidales.S24.7.unclassified",0.534261711,-0.746691788,0.000100979,0.005780942
+"Taurine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.436104822,0.681395319,0.000671083,0.010941576
+"Hypotaurine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.099785721,0.380521267,0.088812665,0.162462193
+"L-Methionine S-oxide","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.538498699,-0.749382255,9.23e-05,0.005780942
+"Indole","Lactobacillales.Lactobacillaceae.Lactobacillus",0.292176978,0.572335678,0.006702464,0.036205181
+"Indole","Clostridiales.Mogibacteriaceae.unclassified",0.179005239,-0.469100178,0.031933139,0.084330474
+"Indole","Clostridiales.Ruminococcaceae.unclassified",0.161628695,-0.451162121,0.040090351,0.098881023
+"Indole","Bacteroidales.S24.7.unclassified",0.125119686,0.410930288,0.064237345,0.134575444
+"Indole","Turicibacterales.Turicibacteraceae.Turicibacter",0.11473359,0.398744166,0.073374303,0.147680897
+"Indole","Clostridiales.Lachnospiraceae.unclassified.1",0.041416417,-0.298907338,0.188099043,0.27990929
+"Indole","Bacteroidales.Rikenellaceae.unclassified",0.01636515,-0.256021274,0.262631131,0.356835776
+"Indole","Clostridiales.Ruminococcaceae.Anaerotruncus",-0.002747001,0.217693246,0.343156927,0.427521089
+"Indole","Bacteroidales.Porphyromonadaceae.Parabacteroides",-0.037470801,-0.120011414,0.604343307,0.680566787
+"Indole","Clostridiales.Lachnospiraceae.unclassified",-0.046453234,-0.076612193,0.741347891,0.811677169
+"Indole","Clostridiales.Lachnospiraceae.Coprococcus",-0.048871105,0.059769978,0.796902125,0.851391159
+"Indole","Clostridiales.unclassified.unclassified",-0.049875917,0.051165208,0.825672635,0.87461932
+"Indole","Clostridiales.Ruminococcaceae.Ruminococcus",-0.051585445,0.031525021,0.892095742,0.926692253
+"Indole-3-acetaldehyde","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.207290454,0.496916423,0.021925329,0.070771764
+"Indole-3-acetate","Clostridiales.Mogibacteriaceae.unclassified",0.448066741,-0.689683554,0.000541917,0.009677082
+"Indole-3-acetate","Bacteroidales.S24.7.unclassified",0.35640966,0.623369214,0.002535081,0.019013108
+"Indole-3-acetate","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.288001352,-0.568859635,0.00712186,0.037093019
+"Indoxyl","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.268167854,-0.552050235,0.009466439,0.043291641
+"L-Formylkynurenine","Clostridiales.Mogibacteriaceae.unclassified",0.354627003,-0.622009367,0.002607199,0.019170584
+"Serotonin","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.2362639,0.52388043,0.014786537,0.057759908
+"Glycerol 3-phosphate","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.029850808,0.279925468,0.219077522,0.311189662
+"Ethanolamine phosphate","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.372020167,0.635152862,0.001977241,0.017653936
+"Choline","Clostridiales.Mogibacteriaceae.unclassified",0.397482985,0.653918065,0.001302898,0.015644508
+"Choline","Bacteroidales.S24.7.unclassified",0.37661722,-0.638581521,0.001835839,0.017210987
+"Choline","Clostridiales.Ruminococcaceae.unclassified",0.218109762,0.507153107,0.018947425,0.067373944
+"Choline","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.204476207,0.494218977,0.022769141,0.070771764
+"L-Carnitine","Clostridiales.Mogibacteriaceae.unclassified",0.203034623,-0.492831504,0.023213139,0.070771764
+"L-Carnitine","Bacteroidales.S24.7.unclassified",0.201233124,0.491092117,0.023779463,0.070780857
+"L-Carnitine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.163586903,-0.453219105,0.039080187,0.098709518
+"L-Carnitine","Clostridiales.unclassified.unclassified",0.118767511,-0.403520924,0.069683351,0.143190466
+"L-Carnitine","Clostridiales.Ruminococcaceae.Anaerotruncus",0.042672672,0.300897056,0.185033642,0.276444685
+"L-Carnitine","Clostridiales.Lachnospiraceae.unclassified",-0.006481605,0.209385948,0.36233348,0.443577601
+"L-Carnitine","Coriobacteriales.Coriobacteriaceae.Adlercreutzia",-0.031176096,-0.142768023,0.53699768,0.612079423
+"CAR 3:0","Bacteroidales.S24.7.unclassified",0.502090084,0.725937724,0.000195084,0.006650578
+"CAR 3:0","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.294752513,-0.574469222,0.006455283,0.035598988
+"CAR 3:0","Clostridiales.Ruminococcaceae.unclassified",0.207901983,-0.497500637,0.021745908,0.070771764
+"CAR 4:0","Clostridiales.Mogibacteriaceae.unclassified",0.531108854,-0.74468343,0.000107911,0.005780942
+"CAR 4:0","Bacteroidales.S24.7.unclassified",0.365579747,0.630317983,0.002192125,0.018286235
+"CAR 4:0","Clostridiales.Ruminococcaceae.unclassified",0.18998869,-0.480092965,0.027620073,0.078270695
+"CAR 4:0;O","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.45610265,0.695196028,0.000468304,0.009242847
+"CAR 4:0;O","Bacteroidales.S24.7.unclassified",0.395538016,-0.652503728,0.001345803,0.015644508
+"CAR 5:0","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.613015147,-0.795213424,1.65e-05,0.003086634
+"CAR 5:0","Bacteroidales.S24.7.unclassified",0.512148624,0.732489722,0.000159482,0.006645078
+"CAR 5:0;O","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.030989889,0.281851724,0.21578951,0.307684663
+"CAR 6:0","Clostridiales.Mogibacteriaceae.unclassified",0.394007514,-0.651388623,0.001380468,0.015644508
+"CAR 6:0","Clostridiales.Ruminococcaceae.unclassified",0.269711313,-0.553376678,0.009261061,0.042875281
+"CAR 6:0","Bacteroidales.S24.7.unclassified",0.160645091,0.450125356,0.04060714,0.098881023
+"CAR 6:1;O2","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.423320361,0.672424229,0.000839571,0.01259357
+"CAR 8:0","Clostridiales.Ruminococcaceae.unclassified",0.180854473,-0.470968947,0.0311648,0.083477142
+"CAR 8:0","Turicibacterales.Turicibacteraceae.Turicibacter",0.072635984,-0.344969831,0.125643883,0.203088174
+"CAR 8:0","Bacteroidales.Porphyromonadaceae.Parabacteroides",-0.003820512,0.215338137,0.348531869,0.432779639
+"CAR 8:1","Clostridiales.Ruminococcaceae.unclassified",0.641966611,-0.812322768,7.72e-06,0.002895184
+"CAR 8:1","Clostridiales.Mogibacteriaceae.unclassified",0.160666846,-0.450148313,0.040595641,0.098881023
+"CAR 8:1","Bacteroidales.S24.7.unclassified",0.102077235,0.383371065,0.086252182,0.160191876
+"CAR 8:1","Clostridiales.Ruminococcaceae.Anaerotruncus",0.065253065,0.334649686,0.13812865,0.218557991
+"CAR 8:1","Lactobacillales.Lactobacillaceae.Lactobacillus",-0.007546188,0.206956811,0.368055037,0.448118957
+"CAR 8:1","Clostridiales.Lachnospiraceae.Coprococcus",-0.032982936,0.136624343,0.554832691,0.628586886
+"CAR 8:1","Turicibacterales.Turicibacteraceae.Turicibacter",-0.045517465,0.082209536,0.723141426,0.797582455
+"CAR 8:1","Clostridiales.Ruminococcaceae.Ruminococcus",-0.046782687,0.074541578,0.748117402,0.813744308
+"CAR 10:0","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.124442293,0.410146532,0.064797658,0.13499512
+"CAR 10:1","Clostridiales.Ruminococcaceae.unclassified",0.412339636,-0.664622189,0.001014099,0.014084714
+"CAR 10:1","Bacteroidales.S24.7.unclassified",0.049280812,0.311153935,0.169770326,0.256755003
+"CAR 10:1","Clostridiales.Lachnospiraceae.unclassified",0.032260235,-0.283984547,0.212187162,0.304674319
+"CAR 10:1","Clostridiales.Lachnospiraceae.Coprococcus",0.019266093,0.261348022,0.25248297,0.346817267
+"CAR 10:1","Clostridiales.Mogibacteriaceae.unclassified",0.017228479,-0.25761804,0.259562339,0.354763478
+"CAR 10:1","Clostridiales.Ruminococcaceae.Anaerotruncus",0.003760853,0.23145801,0.312725357,0.399670146
+"CAR 10:1","Turicibacterales.Turicibacteraceae.Turicibacter",-0.043840456,-0.091386906,0.693603271,0.767260256
+"CAR 10:1","Coriobacteriales.Coriobacteriaceae.Adlercreutzia",-0.051799896,0.028108701,0.9037337,0.933609194
+"CAR 10:1","Lactobacillales.Lactobacillaceae.Lactobacillus",-0.051795328,0.028185791,0.903470867,0.933609194
+"CAR 10:1","Bacteroidales.Rikenellaceae.unclassified",-0.052289459,0.018028141,0.938176126,0.950854182
+"CAR 12:0","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.151463178,0.440329444,0.045749764,0.1085833
+"CAR 12:1","Clostridiales.Ruminococcaceae.unclassified",0.237552123,-0.525047156,0.014526441,0.057341215
+"CAR 14:0","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.170527962,0.460436276,0.035691969,0.091674579
+"CAR 14:1","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.091476873,0.370004094,0.098749963,0.172344392
+"CAR 16:0","Coriobacteriales.Coriobacteriaceae.Adlercreutzia",0.187847526,0.477969821,0.028414944,0.078311377
+"CAR 16:0","Bacteroidales.S24.7.unclassified",0.180239643,-0.470348446,0.031418285,0.083559269
+"CAR 16:0","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.132643342,0.419536858,0.058323317,0.130182517
+"CAR 16:1","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.105305409,0.38735015,0.08276917,0.157555527
+"CAR 18:0","Coriobacteriales.Coriobacteriaceae.Adlercreutzia",0.186687094,0.476815205,0.028854742,0.078409624
+"CAR 18:1","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.173225033,0.463210299,0.034452624,0.089101613
+"CAR 18:1","Coriobacteriales.Coriobacteriaceae.Adlercreutzia",0.149434624,0.438135701,0.046967526,0.110772468
+"Nonanoic acid ","Clostridiales.Mogibacteriaceae.unclassified",0.178084457,-0.468166887,0.032322398,0.084761533
+"Nonanoic acid ","Clostridiales.unclassified.unclassified",0.09513297,-0.374668282,0.09424712,0.167634791
+"Nonanoic acid ","Bacteroidales.S24.7.unclassified",0.072953259,0.345406422,0.12513417,0.203088174
+"Nonanoic acid ","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.062185779,-0.330267301,0.143686963,0.226082454
+"Nonanoic acid ","Clostridiales.Lachnospiraceae.unclassified.1",0.05910593,-0.325807664,0.14950305,0.232629227
+"Nonanoic acid ","Lactobacillales.Lactobacillaceae.Lactobacillus",0.035784601,-0.289819549,0.202536549,0.297847867
+"Nonanoic acid ","Clostridiales.Ruminococcaceae.Anaerotruncus",0.034563472,0.28781122,0.205824396,0.29845372
+"Nonanoic acid ","Clostridiales.Ruminococcaceae.unclassified",0.017059446,-0.257306187,0.260159884,0.354763478
+"Nonanoic acid ","Turicibacterales.Turicibacteraceae.Turicibacter",-0.004664242,0.213468898,0.35283269,0.435237693
+"Nonanoic acid ","Clostridiales.Lachnospiraceae.unclassified",-0.028283781,-0.152086844,0.510462086,0.5853923
+"Nonanoic acid ","Bacteroidales.Rikenellaceae.unclassified",-0.04918287,-0.057238739,0.805340902,0.857305471
+"Nonanoic acid ","Clostridiales.Ruminococcaceae.Ruminococcus",-0.049949216,-0.050480145,0.827972957,0.87461932
+"Decanoic acid ","Clostridiales.Mogibacteriaceae.unclassified",0.205479736,-0.495182541,0.022464799,0.070771764
+"Dodecanoic acid","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.291607344,0.571862725,0.0067583,0.036205181
+"Tetradecanoic acid","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.210897787,0.500352774,0.020886731,0.070771764
+"Stearic acid","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.099036126,0.379584404,0.089666572,0.163227982
+"Stearic acid","Coriobacteriales.Coriobacteriaceae.Adlercreutzia",0.081318687,0.356725037,0.112431228,0.189065967
+"Stearic acid","Clostridiales.Ruminococcaceae.unclassified",0.068309092,-0.338959639,0.132812299,0.211036492
+"Myristoleic acid","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.103220691,0.384785209,0.085002117,0.159378969
+"Hexadecenoic acid","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.005050243,0.234089152,0.307100553,0.395748135
+"Oleic acid","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.272528732,0.555789794,0.008896783,0.041703671
+"Linoleate","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.111815181,0.395252352,0.076163871,0.151922615
+"Arachidonic acid","Bacteroidales.S24.7.unclassified",0.369479123,-0.633249687,0.002059608,0.017961702
+"Arachidonic acid","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.308845717,0.586006341,0.005245299,0.031725599
+"Eicosapentaenoic acid","Bacteroidales.S24.7.unclassified",0.424558329,-0.67329816,0.000821718,0.01259357
+"Eicosapentaenoic acid","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.306501276,0.584102912,0.005430845,0.032326459
+"Docosahexaenoic acid","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.212466659,0.501839941,0.020449628,0.070771764
+"Docosapentaenoic acid","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.261406837,0.546201881,0.010416884,0.044390133
+"Cholic acid","Lactobacillales.Lactobacillaceae.Lactobacillus",0.134852266,0.422030393,0.056690039,0.128840997
+"Cholic acid","Clostridiales.Ruminococcaceae.unclassified",0.130966569,-0.417634099,0.05959358,0.130687675
+"Cholic acid","Turicibacterales.Turicibacteraceae.Turicibacter",0.111205533,0.394519019,0.076759674,0.152300941
+"Cholic acid","Clostridiales.Mogibacteriaceae.unclassified",0.104792324,-0.386720451,0.083313276,0.157790296
+"Cholic acid","Clostridiales.Lachnospiraceae.unclassified.1",0.060315868,-0.327566901,0.147189355,0.229983368
+"Cholic acid","Bacteroidales.Porphyromonadaceae.Parabacteroides",-0.021368634,0.172336293,0.455062379,0.529963951
+"Cholic acid","Clostridiales.Ruminococcaceae.Ruminococcus",-0.046505779,-0.076285714,0.742414051,0.811677169
+"Cholic acid","Clostridiales.Ruminococcaceae.Anaerotruncus",-0.052091411,0.022653027,0.922357386,0.942463269
+"Taurocholate","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.132183647,0.419016067,0.058668921,0.130182517
+"Taurochenodeoxycholate","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.109526904,0.392492751,0.078424066,0.154784341
+"Deoxycholic acid","Clostridiales.Mogibacteriaceae.unclassified",0.37445394,-0.636970363,0.001901186,0.017388893
+"Deoxycholic acid","Turicibacterales.Turicibacteraceae.Turicibacter",0.299771196,0.578604041,0.005997635,0.033858977
+"Deoxycholic acid","Coriobacteriales.Coriobacteriaceae.Adlercreutzia",0.155233675,-0.444378207,0.043566513,0.105402855
+"Deoxycholic acid","Clostridiales.Ruminococcaceae.unclassified",0.102042879,-0.383328494,0.086290024,0.160191876
+"13(S)-HODE","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.011162376,0.246179319,0.282052102,0.371145926
+"9(S)-HODE","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.126548323,0.412578364,0.06307111,0.133625233
+"Triacanthine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.118550764,0.403265701,0.069876948,0.143190466
+"2-Methyleneglutarate","Clostridiales.Mogibacteriaceae.unclassified",0.310570595,-0.587402814,0.005112536,0.031429527
+"2-Methyleneglutarate","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.21044122,-0.499919152,0.021015576,0.070771764
+"2-Methyleneglutarate","Clostridiales.Ruminococcaceae.unclassified",0.022232526,-0.26668502,0.242570538,0.338155955
+"6-Lactoyltetrahydropterin","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.237904308,-0.525365675,0.014456081,0.057341215
+"6-Lactoyltetrahydropterin","Clostridiales.Ruminococcaceae.unclassified",0.089405886,-0.367335803,0.101395786,0.173622921
+"Leucocyanidin","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.028284706,0.277255244,0.223689817,0.315352185
+"Methylenediurea","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.390553306,0.648864886,0.001461718,0.01566126
+"Methylenediurea","Bacteroidales.S24.7.unclassified",0.361695486,-0.627384022,0.002331843,0.018286235
+"Methylenediurea","Coriobacteriales.Coriobacteriaceae.Adlercreutzia",0.289558905,0.570158714,0.006962664,0.036774633
+"Methylenediurea","Clostridiales.Mogibacteriaceae.unclassified",0.27499433,0.557893013,0.008588939,0.041292976
+"cis-p-Coumarate","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.589986266,-0.781336645,2.89e-05,0.003618176
+"N6-Methyl-L-lysine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.107192958,-0.38965794,0.080797652,0.156223694
+"D-Glucono-1,5-lactone","Clostridiales.unclassified.unclassified",0.361458155,-0.627204311,0.002340638,0.018286235
+"D-Glucono-1,5-lactone","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.334548895,-0.606482853,0.003560044,0.023839578
+"D-Glucono-1,5-lactone","Clostridiales.Mogibacteriaceae.unclassified",0.241917861,-0.528982011,0.013676403,0.055427107
+"D-Glucono-1,5-lactone","Clostridiales.Lachnospiraceae.Coprococcus",0.034900592,-0.288367062,0.204910884,0.29845372
+"D-Glucono-1,5-lactone","Lactobacillales.Lactobacillaceae.Lactobacillus",0.007097222,0.238206551,0.298422844,0.388571412
+"D-Glucono-1,5-lactone","Coriobacteriales.Coriobacteriaceae.Adlercreutzia",-0.010565101,-0.199907864,0.384947799,0.46566266
+"D-Glucono-1,5-lactone","Clostridiales.Ruminococcaceae.unclassified",-0.043464029,-0.093322948,0.687424568,0.764938317
+"D-Glucono-1,5-lactone","Bacteroidales.Rikenellaceae.unclassified",-0.050843833,0.041211147,0.859222607,0.900023681
+"Catechin","Bacteroidales.S24.7.unclassified",0.196841079,0.486825456,0.025215279,0.073872888
+"Pyridoxamine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.477737656,-0.709824466,0.000312942,0.009027182
+"N-Amidino-L-aspartate","Clostridiales.Ruminococcaceae.Ruminococcus",0.365252905,0.63007163,0.00220358,0.018286235
+"N-Amidino-L-aspartate","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.153578472,-0.44260541,0.044512309,0.10631921
+"N-Amidino-L-aspartate","Clostridiales.Mogibacteriaceae.unclassified",0.008850372,-0.241677167,0.291226357,0.380522244
+"N-Amidino-L-aspartate","Clostridiales.Ruminococcaceae.Anaerotruncus",-0.011077701,-0.198686144,0.3879192,0.466249039
+"N-Acyl-D-glutamate","Bacteroidales.S24.7.unclassified",0.053972665,-0.318235812,0.159752104,0.245520652
+"6-Carboxyhexanoate","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.223907622,0.512554622,0.01751231,0.064383494
+"7,8-Dihydroxycoumarin","Clostridiales.Mogibacteriaceae.unclassified",0.303899839,-0.581983546,0.0056438,0.032560385
+"7,8-Dihydroxycoumarin","Bacteroidales.S24.7.unclassified",0.20786297,0.497463387,0.021757313,0.070771764
+"10-Hydroxydecanoic acid","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.275587168,0.558397537,0.008516407,0.041292976
+"2-Oxo-7-methylthioheptanoic acid","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.383908574,-0.643982256,0.001630409,0.015997803
+"2-Oxo-7-methylthioheptanoic acid","Clostridiales.Lachnospiraceae.unclassified.1",0.18832628,-0.478445363,0.028235357,0.078311377
+"2-Oxo-7-methylthioheptanoic acid","Clostridiales.Mogibacteriaceae.unclassified",0.09653057,-0.376435973,0.092580695,0.166912311
+"2-Oxo-7-methylthioheptanoic acid","Clostridiales.Ruminococcaceae.Ruminococcus",0.080256935,0.355308441,0.113967751,0.190794226
+"2-Oxo-7-methylthioheptanoic acid","Bacteroidales.S24.7.unclassified",0.074897805,0.348070272,0.12205619,0.199873674
+"2-Oxo-7-methylthioheptanoic acid","Bacteroidales.Rikenellaceae.unclassified",0.034450312,0.287624402,0.206132036,0.29845372
+"2-Oxo-7-methylthioheptanoic acid","Clostridiales.Ruminococcaceae.unclassified",-0.002644258,-0.217917313,0.342648101,0.427521089
+"2-Oxo-7-methylthioheptanoic acid","Clostridiales.Lachnospiraceae.Coprococcus",-0.027285123,0.155174524,0.501811164,0.579012881
+"2-Oxo-7-methylthioheptanoic acid","Coriobacteriales.Coriobacteriaceae.Adlercreutzia",-0.046807938,-0.074380503,0.748644763,0.813744308
+"2-Oxo-7-methylthioheptanoic acid","Turicibacterales.Turicibacteraceae.Turicibacter",-0.05238116,0.015423927,0.947093701,0.954731554
+"L-Homocitrulline","Bacteroidales.S24.7.unclassified",0.282102435,0.563912505,0.007755792,0.039303002
+"L-Homocitrulline","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.279410289,-0.561640254,0.008062115,0.040310575
+"Homomethionine","Coriobacteriales.Coriobacteriaceae.Adlercreutzia",0.319808234,0.594825875,0.00445268,0.028788876
+"Homomethionine","Bacteroidales.S24.7.unclassified",0.299185334,-0.578122883,0.006049471,0.033858977
+"Homomethionine","Bacteroidales.Porphyromonadaceae.Parabacteroides",0.262267952,0.54695023,0.010291092,0.044390133
+"Indole-3-carbinol","Bacteroidales.Rikenellaceae.unclassified",0.135818075,0.423116026,0.055989959,0.128811256
+"Indole-3-carbinol","Clostridiales.Mogibacteriaceae.unclassified",0.022902832,0.267876259,0.240392864,0.336370611
+"Indole-3-carbinol","Bacteroidales.S24.7.unclassified",0.000122368,-0.223866588,0.329300495,0.415783454
+"Indole-3-carbinol","Clostridiales.Ruminococcaceae.unclassified",-0.006633418,-0.209041271,0.363142196,0.443577601

@@ -8,6 +8,10 @@
     -   [5.1 Simple statistics on LASSO-selected
         features](#simple-statistics-on-lasso-selected-features)
     -   [5.2 Plotting significant terms](#plotting-significant-terms)
+-   [6 Other methods](#other-methods)
+    -   [6.1 CLR transformation of microbiome
+        data](#clr-transformation-of-microbiome-data)
+    -   [6.2 Visualizing LASSO results](#visualizing-lasso-results)
 
 More-Microbiome-Analysis-Methods
 
@@ -803,8 +807,7 @@ overall.final2<-dcast(padj, measure + xvar ~ variable)
 #######
 #plot sig terms
 sig<-overall.final[overall.final$p.adj<0.1,]
-
-
+par(mfrow=c(1,3),mar=c(4,4,4,2))
 y_vars = dat.inf.scale
 x_vars = dat.mom.scale
 #par(mfrow=c(3,5),mar=c(4,4,4,2))
@@ -827,15 +830,122 @@ for(i in 1:nrow(sig)){
 
 ![](20230324_Workshopcode_2_files/figure-markdown_github/unnamed-chunk-18-1.png)
 
+# 6 Other methods
+
+## 6.1 CLR transformation of microbiome data
+
 -   One other thing I have done is center-log transform the microbiome
     data before analysis to normalize the count data using the R package
     compositions
 -   Note that you’ll want to do the clr transform on the relative
     abundance data (so participant microbiota should sum to 1) and make
-    sure to add a pseudocount of 1 since clr contains a log-transform
-    step and you don’t want your 0’s going to infinity
+    sure to add a pseudocount since clr contains a log-transform step
+    and you don’t want your 0’s going to infinity
+-   There are a bunch of ways to handle microbiome data and it is worth
+    exploring the space to understand pros and cons of each
+    transformation.
+    -   For more info see [this
+        paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8763921/)
 
 ``` r
 require(compositions)
 otu.clr<-data.frame(clr(ra+(1)))
 ```
+
+## 6.2 Visualizing LASSO results
+
+-   After running LASSO selection on large data sets, there may be many
+    significant associations, especially when working with two large
+    sets of data composed of continuous measurements.
+-   One method is to calculate values for a heatmap. The LASSO code
+    above already saves the p value and correlation coefficients, so all
+    we need to do is format and plot the data
+-   As an example, I will be using some mouse microbiome and metabolome
+    results. The microbiome data was CLR transformed to run the
+    statistics, but will be presented as relative abundance for clarity.
+    The metabolomic data was log2 transformed and will be presented at
+    log2 scale. Some notes:
+    -   We pull only the significant terms, but plot all the
+        correlations on the heatmap (otherwise our map would be filled
+        with holes and wouldn’t look great)
+    -   There are 9 X 61 interactions between the microbiome X
+        metabolome
+    -   Benjamini-Hochberg adjusted p values are plotted with asterisks
+        where ’\*’ \<0.05, ’\*\*’ \<0.01
+
+``` r
+metabo.l<-read.csv("C:/Users/ksugino/Desktop/Github_projects/More-Microbiome-Analysis-Methods/data/metabo_l.csv",header = TRUE, check.names = FALSE)
+newOTUS.mb<-read.csv("C:/Users/ksugino/Desktop/Github_projects/More-Microbiome-Analysis-Methods/data/newOTUS_ra.csv")
+
+#heatmap
+#all sig data
+#grab metabolites and microbiota of interest
+overall.table<-read.csv("C:/Users/ksugino/Desktop/Github_projects/More-Microbiome-Analysis-Methods/data/overall_final.csv")
+sig<-overall.table[overall.table$padj<0.05,]
+
+sig.all<-sig
+sig.all.order<-sig.all[order(sig.all$measure),]
+
+length(unique(sig.all.order$xvar)) #9 taxa
+```
+
+    ## [1] 9
+
+``` r
+length(unique(sig.all.order$measure)) #61 metabolites
+```
+
+    ## [1] 61
+
+``` r
+otu_subset<-newOTUS.mb[,colnames(newOTUS.mb)%in%sig.all.order$xvar]
+metabo_subset<-metabo.l[,colnames(metabo.l)%in%sig.all.order$measure]
+
+subset_cor<-cor(otu_subset,metabo_subset)
+heatmap(subset_cor)
+```
+
+![](20230324_Workshopcode_2_files/figure-markdown_github/unnamed-chunk-20-1.png)
+
+``` r
+#ggplot2 heatmap
+require(reshape2)
+require(ggplot2)
+require(RColorBrewer)
+```
+
+    ## Loading required package: RColorBrewer
+
+    ## Warning: package 'RColorBrewer' was built under R version 4.1.3
+
+``` r
+melt_cor<-melt(subset_cor)
+melt_cor$Var1<-gsub("S24.7","S24-7",melt_cor$Var1)
+
+#make df for stars
+stars<-data.frame()
+for(i in 1:nrow(melt_cor)){
+  temp<-sig.all.order[sig.all.order$measure==melt_cor[i,2] &
+                        sig.all.order$xvar==melt_cor[i,1],]
+  p<-temp$padj
+  if(nrow(temp)==0){
+    stars[i,1]<-NA
+  }else(
+    stars[i,1]<-ifelse(p < .001, "***", ifelse(p < .01, "**", ifelse(p < .05, "*", " ")))
+  )
+}
+
+melt_cor$stars<-stars
+
+ggplot(melt_cor, aes(Var1, y=Var2, stars)) +
+  geom_tile(aes(fill=value),colour="black") +
+  coord_flip()+
+  geom_text(aes(label = stars$V1),hjust=.45) +
+  scale_fill_distiller(palette = "RdBu",name="Correlation", direction = 1)+ 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))+
+  xlab("")+ylab("")
+```
+
+    ## Warning: Removed 475 rows containing missing values (`geom_text()`).
+
+![](20230324_Workshopcode_2_files/figure-markdown_github/unnamed-chunk-20-2.png)
