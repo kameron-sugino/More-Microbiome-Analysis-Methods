@@ -685,7 +685,7 @@ overall.final2<-dcast(padj, measure + xvar ~ variable)
 #######
 #plot sig terms
 sig<-overall.final[overall.final$p.adj<0.1,]
-par(mfrow=c(1,3),mar=c(4,4,4,2))
+
 y_vars = dat.inf.scale
 x_vars = dat.mom.scale
 #par(mfrow=c(3,5),mar=c(4,4,4,2))
@@ -730,7 +730,7 @@ otu.clr<-data.frame(clr(ra+(1)))
   * There are 9 X 61 interactions between the microbiome X metabolome
   * Benjamini-Hochberg adjusted p values are plotted with asterisks where '*' <0.05, '**' <0.01
 
-```{r, echo=T, eval=T}
+```{r, echo=T, eval=T, fig.dim = c(20, 10)}
 metabo.l<-read.csv("C:/Users/ksugino/Desktop/Github_projects/More-Microbiome-Analysis-Methods/data/metabo_l.csv",header = TRUE, check.names = FALSE)
 newOTUS.mb<-read.csv("C:/Users/ksugino/Desktop/Github_projects/More-Microbiome-Analysis-Methods/data/newOTUS_ra.csv")
 

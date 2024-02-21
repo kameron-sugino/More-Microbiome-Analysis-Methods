@@ -807,7 +807,7 @@ overall.final2<-dcast(padj, measure + xvar ~ variable)
 #######
 #plot sig terms
 sig<-overall.final[overall.final$p.adj<0.1,]
-par(mfrow=c(1,3),mar=c(4,4,4,2))
+
 y_vars = dat.inf.scale
 x_vars = dat.mom.scale
 #par(mfrow=c(3,5),mar=c(4,4,4,2))
