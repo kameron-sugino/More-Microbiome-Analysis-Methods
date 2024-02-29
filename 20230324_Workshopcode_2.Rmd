@@ -38,6 +38,8 @@ install.packages("FSA")
 install.packages("MuMIn")
 install.packages("glmnet")
 install.packages("reshape2")
+install.packages("clusterProfiler")
+install.packages("ggalluvial")
 ```
 
 
@@ -64,6 +66,8 @@ require("FSA")
 require("MuMIn")
 require("glmnet")
 require("reshape2")
+require("clusterProfiler")
+require("ggalluvial")
 ```
 ```{r,include=FALSE}
 require("vegan")
@@ -78,6 +82,8 @@ require("FSA")
 require("MuMIn")
 require("glmnet")
 require("reshape2")
+require("clusterProfiler")
+require("ggalluvial")
 ```
 
 # Overview of the CHOICE dataset
@@ -722,7 +728,7 @@ require(compositions)
 otu.clr<-data.frame(clr(ra+(1)))
 ```
 
-## Visualizing LASSO results
+## Visualizing LASSO results: Taxonomy vs metabolites
 * After running LASSO selection on large data sets, there may be many significant associations, especially when working with two large sets of data composed of continuous measurements.
 * One method is to calculate values for a heatmap. The LASSO code above already saves the p value and correlation coefficients, so all we need to do is format and plot the data
 * As an example, I will be using some mouse microbiome and metabolome results. The microbiome data was CLR transformed to run the statistics, but will be presented as relative abundance for clarity. The metabolomic data was log2 transformed and will be presented at log2 scale. Some notes:
@@ -757,7 +763,6 @@ require(reshape2)
 require(ggplot2)
 require(RColorBrewer)
 melt_cor<-melt(subset_cor)
-melt_cor$Var1<-gsub("S24.7","S24-7",melt_cor$Var1)
 
 #make df for stars
 stars<-data.frame()
@@ -773,6 +778,7 @@ for(i in 1:nrow(melt_cor)){
 }
 
 melt_cor$stars<-stars
+melt_cor$Var1<-gsub("S24.7","S24-7",melt_cor$Var1)
 
 ggplot(melt_cor, aes(Var1, y=Var2, stars)) +
   geom_tile(aes(fill=value),colour="black") +
@@ -783,3 +789,170 @@ ggplot(melt_cor, aes(Var1, y=Var2, stars)) +
   xlab("")+ylab("")
 ```
 
+## Visualizing LASSO results: KEGG gene annotations vs metabolites
+* Interpreting the gene annotation results is a bit trickier. You **could** just report the KEGG-metabolite interactions, but it's not very informative. A slightly better way is through an over representation analysis (ORA).
+  * We'll use clusterprofiler to summarize the significant genes into pathways. To do this, we'll split the data by analyte class (e.g. TGs, amino acids, etc.) and direction of association (positive/negative) and then perform the ORA. 
+* Note that there is some unique code you need to run once to make sure clusterprofiler can access the KEGG database.
+  
+```{r, echo=T, eval=T, fig.dim = c(20, 15)}
+getOption("clusterProfiler.download.method")
+#install.packages("R.utils")
+library(R.utils)
+R.utils::setOption("clusterProfiler.download.method","auto")
+
+#pull just the significant terms after LASSO and FDR
+sig.ko<-read.csv("C:/Users/ksugino/Desktop/Github_projects/More-Microbiome-Analysis-Methods/data/20231201_significant_gene_analytes.csv")
+
+#up genes alluvial plot by pathway
+#pathway over-representation analysis for all analytes
+up<-sig.ko[sig.ko$correlation>0,]
+
+gene_cast<-recast(up,  gene ~ Analyte.Class, value.var="gene", fun.aggregate = toString)
+gene_cast<-data.frame(apply(gene_cast[,-1], 2,function(x) gsub("\\,.*", "", x)))
+gene_list<-as.list(gene_cast)
+gene_list_final <- lapply(gene_list, function(x) x[x!=""])
+
+ora_collect<-data.frame()
+for (i in 1:length(names(gene_list_final))){
+  if(length(gene_list_final[[i]])>5){
+    gene_n<-names(gene_list_final[i])
+    gene<-gene_list_final[[i]]
+    kk <- enrichKEGG(gene = gene,
+                     organism = "ko",
+                     keyType = "kegg",
+                     pvalueCutoff = 0.05)
+    
+    kk.res<-kk@result
+    kk_sig<-kk.res[kk.res$pvalue<0.05,]
+    kk_res_names<-data.frame(gene_n, "up",kk_sig)
+    ora_collect<-rbind(ora_collect, kk_res_names)
+  }
+}
+colnames(ora_collect)<-c("metabolite","direction",colnames(ora_collect[-c(1:2)]))
+ora_up<-ora_collect
+
+
+#down genes alluvial plot by pathway
+#pathway over-representation analysis for all analytes
+#down
+down<-sig.ko[sig.ko$correlation<0,]
+
+gene_cast<-recast(down,  gene ~ Analyte.Class, value.var="gene", fun.aggregate = toString)
+gene_cast<-data.frame(apply(gene_cast[,-1], 2,function(x) gsub("\\,.*", "", x)))
+gene_list<-as.list(gene_cast)
+gene_list_final <- lapply(gene_list, function(x) x[x!=""])
+
+ora_collect<-data.frame()
+for (i in 1:length(names(gene_list_final))){
+  if(length(gene_list_final[[i]])>5){
+    gene_n<-names(gene_list_final[i])
+    gene<-gene_list_final[[i]]
+    kk <- enrichKEGG(gene = gene,
+                     organism = "ko",
+                     keyType = "kegg",
+                     pvalueCutoff = 0.05)
+    
+    kk.res<-kk@result
+    kk_sig<-kk.res[kk.res$pvalue<0.05,]
+    kk_res_names<-data.frame(gene_n, "down",kk_sig)
+    ora_collect<-rbind(ora_collect, kk_res_names)
+  }
+}
+colnames(ora_collect)<-c("metabolite","direction",colnames(ora_collect[-c(1:2)]))
+ora_down<-ora_collect
+
+
+#collect terms
+ora_all<-rbind(ora_up, ora_down)
+
+#split out significant terms
+ora_sig<-ora_all[ora_all$p.adjust<0.05,]
+
+#pare down data for ggplot
+ora_alluvial<-ora_sig[,c(1:2,4,10,11)]
+
+#rename correlation groups
+ora_alluvial$direction<-factor(ora_alluvial$direction)
+levels(ora_alluvial$direction)<-c("Negative","Positive")
+
+colourCount = length(unique(ora_alluvial$metabolite))
+getPalette = colorRampPalette(brewer.pal(12, "Paired"))
+
+ggplot(as.data.frame(ora_alluvial),
+       aes(y = Count, axis1 = Description, axis2 = metabolite)) +
+  geom_alluvium(aes(fill = metabolite), width = 1/12) +
+  geom_stratum(width = 1/12, fill = "black", color = "grey") +
+  #geom_label(stat = "stratum", aes(label = after_stat(stratum))) +
+  scale_x_discrete(limits = c("Gene Annotation \nPathway", "Metabolite Class"), expand = c(.05, .05))+ 
+  guides(fill=guide_legend(title="Association")) +
+  scale_fill_manual(values = getPalette(colourCount))+
+  theme(axis.text.x=element_text(size=15))+
+  ggtitle("")+
+  ggrepel::geom_text_repel(
+    aes(label = ifelse(after_stat(x) == 1, as.character(after_stat(stratum)), "")),
+    stat = "stratum", size = 4, direction = "y", nudge_x = -.6, max.overlaps = 105) +
+  ggrepel::geom_text_repel(
+    aes(label = ifelse(after_stat(x)  == 2, as.character(after_stat(stratum)), "")),
+    stat = "stratum", size = 4, direction = "y", nudge_x = .4, max.overlaps = 25)
+```
+
+* We can also split the plot out by positive or negative association for easier interpretation
+
+```{r, echo=T, eval=T, fig.dim = c(20, 15)}
+ora_sig_up<-ora_sig[ora_sig$direction=="up",]
+ora_sig_down<-ora_sig[ora_sig$direction=="down",]
+
+
+ora_alluvial<-ora_sig_up[,c(1:2,4,10,11)]
+
+#rename correlation groups
+ora_alluvial$direction<-factor(ora_alluvial$direction)
+levels(ora_alluvial$direction)<-c("Positive")
+
+ggplot(as.data.frame(ora_alluvial),
+       aes(y = Count, axis1 = Description, axis2 = metabolite)) +
+  geom_alluvium(aes(fill = metabolite), width=1/12) +
+  geom_stratum(alpha=0,width = 1/12, linewidth = 1.5) +
+  #geom_label(stat = "stratum", aes(label = after_stat(stratum))) +
+  scale_x_discrete(limits = c("Gene Annotation \nPathway", "Metabolite Class"), expand = c(.05, .05))+ 
+  guides(fill="none") +
+  #scale_fill_brewer(type = "qual", palette = "Paired") +
+  theme(axis.text.x=element_text(size=15))+
+  ggtitle("")+
+  ggrepel::geom_text_repel(
+    aes(label = ifelse(after_stat(x) == 1, as.character(after_stat(stratum)), "")),
+    stat = "stratum", size = 4, direction = "y", nudge_x = -.35, max.overlaps = 50) +
+  ggrepel::geom_text_repel(
+    aes(label = ifelse(after_stat(x)  == 2, as.character(after_stat(stratum)), "")),
+    stat = "stratum", size = 4, direction = "y", nudge_x = .2, max.overlaps = 21)+
+  scale_fill_brewer(type = "qual", palette = "Set1")
+
+
+
+ora_alluvial<-ora_sig_down[,c(1:2,4,10,11)]
+
+#rename correlation groups
+ora_alluvial$direction<-factor(ora_alluvial$direction)
+levels(ora_alluvial$direction)<-c("Negative")
+
+colourCount = length(unique(ora_alluvial$metabolite))
+getPalette = colorRampPalette(brewer.pal(12, "Paired"))
+
+ggplot(as.data.frame(ora_alluvial),
+       aes(y = Count, axis1 = Description, axis2 = metabolite)) +
+  geom_alluvium(aes(fill = metabolite), width=1/12) +
+  geom_stratum(alpha=0,width = 1/12, linewidth = 1.5) +
+  #geom_label(stat = "stratum", aes(label = after_stat(stratum))) +
+  scale_x_discrete(limits = c("Gene Annotation \nPathway", "Metabolite Class"), expand = c(.05, .05))+ 
+  guides(fill="none") +
+  #scale_fill_brewer(type = "qual", palette = "Paired") +
+  theme(axis.text.x=element_text(size=15))+
+  ggtitle("")+
+  ggrepel::geom_text_repel(
+    aes(label = ifelse(after_stat(x) == 1, as.character(after_stat(stratum)), "")),
+    stat = "stratum", size = 4, direction = "y", nudge_x = -.35, max.overlaps = 50) +
+  ggrepel::geom_text_repel(
+    aes(label = ifelse(after_stat(x)  == 2, as.character(after_stat(stratum)), "")),
+    stat = "stratum", size = 4, direction = "y", nudge_x = .2, max.overlaps = 21)+
+  scale_fill_manual(values = getPalette(colourCount))
+```
